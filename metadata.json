@@ -1,0 +1,5 @@
+{
+  "name": "LearnHub LMS",
+  "description": "A single-file, full-featured Learning Management System with offline capabilities using IndexedDB.",
+  "requestFramePermissions": []
+}
