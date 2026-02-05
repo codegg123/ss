@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearnHub | Professional LMS</title>
+    <title>LearnHub - Modern LMS</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -32,6 +32,9 @@
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
                         mono: ['Fira Code', 'monospace']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
@@ -39,92 +42,71 @@
     </script>
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* Base Styles */
         body { font-family: 'Inter', sans-serif; background-color: #020617; }
         
-        /* Glassmorphism Ultra High Definition */
+        /* Glassmorphism High Definition */
         .glass {
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(15, 23, 42, 0.60);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .glass-panel {
-            background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
-            backdrop-filter: blur(32px);
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+            backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
 
-        .video-fit {
+        /* Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            background: #22d3ee;
+            margin-top: -4px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: black;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
         }
         
+        /* Utility */
+        .neon-text { text-shadow: 0 0 10px rgba(34, 211, 238, 0.5); }
+        .neon-text-purple { text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); }
+        
         .smooth-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        .lesson-active {
-            background: rgba(255, 255, 255, 0.08);
-            border-left: 3px solid #06b6d4 !important;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
-
-        /* Custom Range Slider for Seek Bar */
-        .seek-bar {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            outline: none;
-            cursor: pointer;
-        }
-        .seek-bar::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            background: #06b6d4;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-        }
-        .seek-bar::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            background: #06b6d4;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 h-screen w-screen overflow-hidden selection:bg-brand-500 selection:text-white relative">
 
     <!-- Global Background Ambience -->
     <div class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[-10%] right-[-5%] w-[70vw] h-[70vw] bg-indigo-900/10 rounded-full blur-[180px]"></div>
-        <div class="absolute bottom-[-10%] left-[-5%] w-[70vw] h-[70vw] bg-cyan-900/5 rounded-full blur-[180px]"></div>
+        <div class="absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-indigo-900/10 rounded-full blur-[150px]"></div>
+        <div class="absolute bottom-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-cyan-900/5 rounded-full blur-[150px]"></div>
     </div>
 
     <div id="app" class="h-full w-full flex flex-col relative z-10"></div>
-    
-    <!-- Modals Container -->
-    <div id="modal-container" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/80 backdrop-blur-md p-4" onclick="APP.ui.closeModal()"></div>
 
     <script>
         /**
@@ -132,8 +114,8 @@
          */
         const APP = {
             CONSTANTS: {
-                DB_NAME: 'LearnHub_Enterprise_DB',
-                DB_VERSION: 1, 
+                DB_NAME: 'LearnHub_DB',
+                DB_VERSION: 2, 
                 STORE_FILES: 'files',
                 STORE_DATA: 'data'
             },
@@ -144,9 +126,7 @@
                 adminTab: 'courses', 
                 activeVideoUrl: null,
                 activeLessonId: null,
-                scannedModules: [],
-                importTargetCourseId: null,
-                currentModalData: {}
+                autoplay: true
             },
 
             data: {
@@ -154,36 +134,6 @@
                 users: [],
                 progress: {}, 
                 activity: [] 
-            },
-
-            utils: {
-                generateId: (prefix = 'id') => prefix + '_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                formatTime(seconds) {
-                    if (!seconds || isNaN(seconds)) return '0:00';
-                    const h = Math.floor(seconds / 3600);
-                    const m = Math.floor((seconds % 3600) / 60);
-                    const s = Math.floor(seconds % 60);
-                    if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                    return `${m}:${s.toString().padStart(2, '0')}`;
-                },
-                parseYouTubeId(url) {
-                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-                    const match = url.match(regExp);
-                    return (match && match[2].length === 11) ? match[2] : null;
-                },
-                convertDriveLink(url) {
-                    if (url.includes('drive.google.com') && url.includes('/view')) {
-                        return url.replace('/view', '/preview');
-                    }
-                    return url;
-                },
-                getTypeFromUrl(url) {
-                    if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
-                    if (url.includes('drive.google.com')) return 'drive';
-                    if (url.match(/\.(jpeg|jpg|gif|png)$/) != null) return 'image';
-                    if (url.match(/\.(pdf)$/) != null) return 'pdf';
-                    return 'video'; 
-                }
             },
 
             db: {
@@ -218,10 +168,10 @@
                         if (data) APP.data = data;
                         else APP.services.seedData();
                         
-                        if(!APP.data.users || APP.data.users.length === 0) {
+                        if(!APP.data.users) {
                             APP.data.users = [
-                                { name: 'Admin', email: 'admin', role: 'admin', password: 'admin' },
-                                { name: 'Student', email: 'student', role: 'student', password: 'student' }
+                                { name: 'Administrator', email: 'admin@learnhub.com', role: 'admin', password: 'admin' },
+                                { name: 'Demo Student', email: 'student@learnhub.com', role: 'student', password: 'student' }
                             ];
                         }
                     } catch (e) { APP.services.seedData(); }
@@ -243,209 +193,310 @@
                 }
             },
 
-            router: {
-                init() {
-                    window.onhashchange = () => this.handle();
-                    if (!window.location.hash) window.location.hash = '#selection';
-                    this.handle();
-                },
-                navigate(path) {
-                    window.location.hash = '#' + path;
-                },
-                handle() {
-                    const hash = window.location.hash.slice(1) || 'selection';
-                    const [path, p1, p2] = hash.split('/');
-                    const appEl = document.getElementById('app');
-                    
-                    if (path === 'selection') appEl.innerHTML = APP.components.Selection();
-                    else if (path === 'login') appEl.innerHTML = APP.components.Login(p1);
-                    else if (path === 'admin') {
-                        if (APP.state.user?.role !== 'admin') return this.navigate('login/admin');
-                        if (p1 === 'course' && p2) appEl.innerHTML = APP.components.CourseEditor(p2);
-                        else appEl.innerHTML = APP.components.Admin();
-                    }
-                    else if (path === 'dashboard') {
-                        if (!APP.state.user) return this.navigate('selection');
-                        appEl.innerHTML = APP.components.Dashboard();
-                    }
-                    else if (path === 'course' && p1) {
-                        if (!APP.state.user) return this.navigate('selection');
-                        appEl.innerHTML = APP.components.CourseView(p1);
-                    }
-
-                    this.afterRender(path, p1, p2);
-                },
-                afterRender(path, p1, p2) {
-                    // Global Event: Logout
-                    document.querySelectorAll('.btn-logout').forEach(b => {
-                        b.onclick = () => { APP.state.user = null; APP.router.navigate('selection'); };
-                    });
-
-                    if (path === 'login') APP.events.attachLogin(p1);
-                    if (path === 'course') APP.events.course(p1);
-                    
-                    // Admin User Form wiring
-                    if (path === 'admin' && !p1) {
-                        const form = document.getElementById('add-user-form');
-                        if (form) form.onsubmit = (e) => {
-                            e.preventDefault();
-                            const name = document.getElementById('new-user-name').value;
-                            const email = document.getElementById('new-user-email').value;
-                            const pass = document.getElementById('new-user-pass').value;
-                            const role = document.getElementById('new-user-role').value;
-                            if (name && email && pass) {
-                                APP.data.users.push({ name, email, password: pass, role });
-                                APP.db.saveData().then(() => APP.router.handle());
-                                APP.notify('User added!', 'success');
-                            }
-                        };
-                    }
-                }
-            },
-
             services: {
                 seedData() {
                     APP.data.courses = [
                         {
                             id: 'c1',
-                            title: 'Mastering Modern UI/UX',
-                            description: 'Learn the principles of glassmorphism, responsive layouts, and modern typography using standard tools.',
-                            batch: 'Spring 2025',
-                            thumbnail: 'https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop',
+                            title: 'Full Stack Web Development',
+                            description: 'Master the MERN stack with 50+ real world projects. Code with excellence.',
+                            batch: 'LearnHub 1.0',
+                            thumbnail: 'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?q=80&w=2070&auto=format&fit=crop',
                             modules: [
                                 {
                                     id: 'm1',
-                                    title: 'Phase 1: Foundations',
+                                    title: 'Introduction & Setup',
                                     lessons: [
-                                        { id: 'l1', title: 'Welcome to LearnHub', type: 'video', duration: '10:00', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' },
-                                        { id: 'l2', title: 'Getting Started Guide', type: 'pdf', duration: '5 min read', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' }
+                                        { id: 'l1', title: 'Course Orientation', type: 'video', duration: '12:00' },
+                                        { id: 'l2', title: 'VS Code Setup', type: 'pdf', duration: 'Read' }
                                     ]
                                 }
                             ]
                         }
                     ];
                     APP.data.users = [
-                        { name: 'Administrator', email: 'admin', role: 'admin', password: 'admin' },
-                        { name: 'Demo Student', email: 'student', role: 'student', password: 'student' }
+                        { name: 'Administrator', email: 'admin@learnhub.com', role: 'admin', password: 'admin' },
+                        { name: 'Demo Student', email: 'student@learnhub.com', role: 'student', password: 'student' }
                     ];
-                    APP.data.progress = {};
                 },
 
                 login(username, password, role) {
-                    const user = APP.data.users.find(u => (u.email === username) && u.password === password && u.role === role);
+                    const user = APP.data.users.find(u => (u.email === username || u.name === username) && u.password === password && u.role === role);
                     if (user) {
                         APP.state.user = user;
                         APP.router.navigate(role === 'admin' ? 'admin' : 'dashboard');
                         APP.notify(`Welcome back, ${user.name}!`, 'success');
                     } else {
-                        APP.notify('Invalid credentials for ' + role, 'error');
+                        APP.notify('Invalid credentials', 'error');
                     }
                 },
 
                 async importFilesToCourse(courseId, fileList) {
                     const files = Array.from(fileList);
-                    APP.state.importTargetCourseId = courseId;
-                    if (files.length === 0) return;
-                    APP.notify('Analyzing folder...', 'info');
-                    const scanned = {}; 
-                    for (const file of files) {
+                    const courseIndex = APP.data.courses.findIndex(c => c.id === courseId);
+                    
+                    if (courseIndex === -1) {
+                        APP.notify('Error: Course not found.', 'error');
+                        return;
+                    }
+
+                    let processedCount = 0;
+                    APP.notify('Importing files... Do not close the tab.', 'info');
+
+                    const moduleMap = {}; 
+
+                    const promises = files.map(async (file) => {
                         const pathParts = file.webkitRelativePath.split('/');
-                        if (file.name.startsWith('.')) continue;
-                        let moduleName = pathParts.length > 1 ? pathParts[pathParts.length - 2] : "Resources";
-                        moduleName = moduleName.replace(/_/g, ' ').replace(/^\d+\.?\s*/, ''); 
-                        if (!scanned[moduleName]) scanned[moduleName] = [];
-                        const ext = file.name.split('.').pop().toLowerCase();
+                        let moduleName = "Imported Content";
+                        let fileName = file.name;
+
+                        if (pathParts.length > 1) {
+                            moduleName = pathParts[pathParts.length - 2];
+                        }
+
+                        if (fileName.startsWith('.')) return;
+
+                        const moduleId = 'm_' + courseId + '_' + moduleName.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+                        
+                        if (!moduleMap[moduleId]) {
+                            moduleMap[moduleId] = {
+                                id: moduleId,
+                                title: moduleName,
+                                lessons: []
+                            };
+                        }
+
+                        const lessonId = 'l_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                        
+                        const ext = fileName.split('.').pop().toLowerCase();
                         let type = 'file';
                         if (file.type.startsWith('video') || ['mp4', 'webm', 'ogg', 'mov', 'mkv'].includes(ext)) type = 'video';
                         else if (file.type === 'application/pdf' || ext === 'pdf') type = 'pdf';
-                        scanned[moduleName].push({ title: file.name.replace(/\.[^/.]+$/, "").replace(/_/g, ' '), type: type, fileObj: file });
-                    }
-                    APP.state.scannedModules = Object.keys(scanned).map(name => ({ id: APP.utils.generateId('m'), title: name, lessons: scanned[name], selected: true }));
-                    APP.ui.showModal(APP.components.ImportReviewModal());
-                },
 
-                async executeImport() {
-                    const courseId = APP.state.importTargetCourseId;
-                    const modulesToImport = APP.state.scannedModules.filter(m => m.selected);
-                    const course = APP.data.courses.find(c => c.id === courseId);
-                    if (!course) return;
-                    APP.notify(`Importing ${modulesToImport.length} modules...`, 'info');
-                    let promises = [];
-                    for (const mod of modulesToImport) {
-                        const newMod = { id: mod.id, title: mod.title, lessons: [] };
-                        for (const les of mod.lessons) {
-                            const lesId = APP.utils.generateId('l');
-                            newMod.lessons.push({ id: lesId, title: les.title, type: les.type, duration: 'Local', url: null });
-                            if (les.fileObj) promises.push(APP.db.saveFile(lesId, les.fileObj));
-                        }
-                        course.modules.push(newMod);
+                        await APP.db.saveFile(lessonId, file);
+
+                        moduleMap[moduleId].lessons.push({
+                            id: lessonId,
+                            title: fileName,
+                            type: type,
+                            duration: 'View'
+                        });
+
+                        processedCount++;
+                    });
+
+                    try {
+                        await Promise.all(promises);
+                        const course = APP.data.courses[courseIndex];
+                        Object.values(moduleMap).forEach(newMod => {
+                            const existingMod = course.modules.find(m => m.title === newMod.title);
+                            if (existingMod) {
+                                existingMod.lessons.push(...newMod.lessons);
+                            } else {
+                                course.modules.push(newMod);
+                            }
+                        });
+
+                        await APP.db.saveData();
+                        APP.notify(`Success! Imported ${processedCount} files.`, 'success');
+                        APP.router.navigate(`admin/course/${courseId}`);
+                    } catch (err) {
+                        console.error(err);
+                        APP.notify('Import failed. Check console for details.', 'error');
                     }
-                    await Promise.all(promises);
-                    await APP.db.saveData();
-                    APP.ui.closeModal();
-                    APP.notify('Import finished', 'success');
-                    APP.router.handle();
                 },
 
                 exportData() {
-                    const blob = new Blob([JSON.stringify(APP.data)], { type: 'application/json' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'learnhub_backup.json';
-                    a.click();
+                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(APP.data));
+                    const downloadAnchorNode = document.createElement('a');
+                    downloadAnchorNode.setAttribute("href", dataStr);
+                    downloadAnchorNode.setAttribute("download", "learnhub_backup.json");
+                    document.body.appendChild(downloadAnchorNode);
+                    downloadAnchorNode.click();
+                    downloadAnchorNode.remove();
+                },
+
+                async importData(file) {
+                    const reader = new FileReader();
+                    reader.onload = async (e) => {
+                        try {
+                            const json = JSON.parse(e.target.result);
+                            APP.data = json;
+                            await APP.db.saveData();
+                            APP.notify('Data restored successfully', 'success');
+                            location.reload();
+                        } catch (err) {
+                            APP.notify('Invalid JSON file', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
                 }
             },
 
             ui: {
                 renderThumbnail(src, className = '') {
-                    if (src && src.startsWith('http')) {
-                        return `<img src="${src}" class="w-full h-full object-cover ${className}" alt="">`;
+                    if (src && (src.startsWith('http') || src.startsWith('data:') || src.startsWith('/'))) {
+                        return `<img src="${src}" class="w-full h-full object-cover ${className}" alt="Thumbnail">`;
                     }
                     return `<div class="w-full h-full flex items-center justify-center bg-slate-800 ${className}"><i class="fas ${src || 'fa-cube'} text-slate-500"></i></div>`;
+                }
+            },
+
+            router: {
+                routes: {
+                    'selection': () => APP.components.Selection(),
+                    'login/student': () => APP.components.Login('student'),
+                    'login/admin': () => APP.components.Login('admin'),
+                    'dashboard': () => APP.components.Dashboard(),
+                    'admin': () => APP.components.Admin(),
+                    'admin/course': (id) => APP.components.CourseEditor(id),
+                    'course': (id) => APP.components.CourseView(id),
                 },
-                showModal(html) {
-                    const el = document.getElementById('modal-container');
-                    el.innerHTML = html;
-                    el.classList.remove('hidden');
+
+                init() {
+                    window.addEventListener('hashchange', APP.router.handle);
+                    APP.router.handle();
                 },
-                closeModal() {
-                    const el = document.getElementById('modal-container');
-                    el.classList.add('hidden');
-                    el.innerHTML = '';
+
+                handle() {
+                    const hash = window.location.hash.slice(1) || 'selection';
+                    let [route, param, extra] = hash.split('/');
+                    
+                    if (route === 'admin' && param === 'course') {
+                        route = 'admin/course';
+                        param = extra;
+                    } else if (route === 'login') {
+                        route = `login/${param}`;
+                        param = null;
+                    }
+
+                    if (!APP.state.user && !['selection', 'login/student', 'login/admin'].includes(route)) {
+                        APP.router.navigate('selection');
+                        return;
+                    }
+
+                    const viewFn = APP.router.routes[route];
+                    const appDiv = document.getElementById('app');
+                    
+                    if (viewFn) {
+                        if (APP.state.activeVideoUrl) {
+                            URL.revokeObjectURL(APP.state.activeVideoUrl);
+                            APP.state.activeVideoUrl = null;
+                        }
+                        appDiv.innerHTML = viewFn(param);
+                        APP.router.afterRender(route, param);
+                    } else {
+                        APP.router.navigate('selection');
+                    }
+                },
+
+                navigate(path) {
+                    window.location.hash = path;
+                },
+
+                afterRender(route, param) {
+                    const viewKey = route.replace('/', '_');
+                    if (APP.events[viewKey]) APP.events[viewKey](param);
+                    
+                    const logoutBtns = document.querySelectorAll('.btn-logout');
+                    logoutBtns.forEach(btn => {
+                        btn.onclick = () => {
+                            APP.state.user = null;
+                            APP.router.navigate('selection');
+                        };
+                    });
                 }
             },
 
             components: {
+                Navbar(active) {
+                    return `
+                        <aside class="hidden md:flex w-64 flex-col bg-slate-900/80 backdrop-blur-xl border-r border-white/5 shrink-0 z-50">
+                            <div class="h-20 flex items-center px-8 border-b border-white/5 cursor-pointer" onclick="APP.router.navigate('selection')">
+                                <i class="fas fa-graduation-cap text-brand-400 text-2xl mr-3"></i>
+                                <span class="text-xl font-bold tracking-tight">LearnHub</span>
+                            </div>
+
+                            <div class="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+                                <button onclick="APP.router.navigate('dashboard')" class="w-full flex items-center px-4 py-3.5 rounded-xl smooth-transition ${active === 'dashboard' ? 'bg-brand-600/90 text-white shadow-lg shadow-brand-500/20 ring-1 ring-white/10' : 'text-slate-400 hover:bg-white/5 hover:text-white'}">
+                                    <i class="fas fa-home w-5 mr-3"></i>
+                                    <span class="font-medium">Home</span>
+                                </button>
+                                <button onclick="APP.router.navigate('dashboard')" class="w-full flex items-center px-4 py-3.5 rounded-xl smooth-transition text-slate-400 hover:bg-white/5 hover:text-white">
+                                    <i class="fas fa-book-open w-5 mr-3"></i>
+                                    <span class="font-medium">My Courses</span>
+                                </button>
+                                <button onclick="APP.router.navigate('dashboard')" class="w-full flex items-center px-4 py-3.5 rounded-xl smooth-transition text-slate-400 hover:bg-white/5 hover:text-white">
+                                    <i class="fas fa-play-circle w-5 mr-3"></i>
+                                    <span class="font-medium">Continue Watching</span>
+                                </button>
+                                <button onclick="APP.router.navigate('dashboard')" class="w-full flex items-center px-4 py-3.5 rounded-xl smooth-transition text-slate-400 hover:bg-white/5 hover:text-white">
+                                    <i class="fas fa-user w-5 mr-3"></i>
+                                    <span class="font-medium">Profile</span>
+                                </button>
+                            </div>
+
+                            <div class="p-4 border-t border-white/5">
+                                <div class="flex items-center p-3 rounded-xl bg-slate-800/50 border border-white/5 hover:bg-slate-800/80 smooth-transition cursor-pointer group">
+                                    <div class="w-10 h-10 rounded-lg bg-brand-500 text-white flex items-center justify-center font-bold mr-3 shadow-lg shadow-brand-500/20">
+                                        ${APP.state.user?.name?.charAt(0) || 'S'}
+                                    </div>
+                                    <div class="flex-1 overflow-hidden">
+                                        <div class="text-sm font-bold truncate text-white group-hover:text-brand-300">${APP.state.user?.name || 'Student'}</div>
+                                        <div class="text-xs text-slate-500">User</div>
+                                    </div>
+                                    <button class="btn-logout text-slate-400 hover:text-red-400 smooth-transition p-2"><i class="fas fa-sign-out-alt"></i></button>
+                                </div>
+                            </div>
+                        </aside>
+                    `;
+                },
+                
+                // ... [Selection, Login, Admin components remain unchanged] ...
                 Selection() {
                     return `
-                        <div class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden animate-fade">
-                            <div class="z-10 text-center mb-16 px-6">
-                                <div class="flex items-center justify-center space-x-4 mb-8">
-                                    <div class="w-20 h-20 rounded-[24px] bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center shadow-2xl shadow-brand-500/40">
-                                        <i class="fas fa-graduation-cap text-white text-4xl"></i>
+                        <div class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+                            <div class="z-10 text-center mb-16 relative">
+                                <div class="flex items-center justify-center space-x-3 mb-6">
+                                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-admin-500 to-brand-500 flex items-center justify-center shadow-2xl shadow-brand-500/30">
+                                        <i class="fas fa-graduation-cap text-white text-3xl"></i>
                                     </div>
-                                    <h1 class="text-6xl font-black text-white tracking-tighter">LearnHub</h1>
+                                    <h1 class="text-5xl font-bold text-white tracking-tight">LearnHub</h1>
                                 </div>
-                                <h2 class="text-5xl font-extrabold mb-6 tracking-tight text-white">Elevate your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">knowledge.</span></h2>
-                                <p class="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed">The ultimate enterprise-grade learning management system. Seamless, beautiful, powerful.</p>
+                                <h2 class="text-6xl font-bold mb-6 tracking-tight">Learn. Grow. <span class="text-transparent bg-clip-text bg-gradient-to-r from-admin-400 to-brand-400">Succeed.</span></h2>
+                                <p class="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed">A powerful learning management system designed for modern education. Choose your portal to get started.</p>
                             </div>
+
                             <div class="z-10 flex flex-col md:flex-row gap-8 w-full max-w-5xl px-8">
-                                <div onclick="APP.router.navigate('login/admin')" class="flex-1 glass-panel rounded-[40px] p-10 group hover:scale-[1.02] smooth-transition cursor-pointer border border-white/5 hover:border-brand-500/30">
-                                    <div class="w-16 h-16 rounded-2xl bg-brand-500/10 flex items-center justify-center mb-8 group-hover:bg-brand-500/20 smooth-transition">
-                                        <i class="fas fa-shield-halved text-3xl text-brand-400"></i>
+                                <div class="flex-1 bg-gradient-to-br from-admin-600/20 to-admin-900/20 rounded-[32px] p-1 relative overflow-hidden group hover:scale-[1.01] smooth-transition shadow-2xl shadow-admin-900/30 border border-admin-500/20">
+                                    <div class="absolute inset-0 bg-admin-600/10 blur-xl group-hover:bg-admin-600/20 smooth-transition"></div>
+                                    <div class="glass-panel h-full w-full rounded-[28px] p-10 flex flex-col justify-between relative">
+                                        <div>
+                                            <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-admin-500/20 group-hover:border-admin-500/30 smooth-transition">
+                                                <i class="fas fa-shield-alt text-3xl text-admin-300"></i>
+                                            </div>
+                                            <h3 class="text-3xl font-bold text-white mb-3">Admin Portal</h3>
+                                            <p class="text-slate-400 text-lg leading-relaxed">Manage courses, content, users and analytics with powerful tools.</p>
+                                        </div>
+                                        <button onclick="APP.router.navigate('login/admin')" class="mt-10 flex items-center text-white font-semibold group-hover:translate-x-2 smooth-transition text-lg">
+                                            Continue <i class="fas fa-arrow-right ml-3 text-sm"></i>
+                                        </button>
                                     </div>
-                                    <h3 class="text-3xl font-bold text-white mb-4">Admin Portal</h3>
-                                    <p class="text-slate-400 text-lg">Manage curriculums, analyze student progress, and organize resources.</p>
-                                    <div class="mt-8 flex items-center text-brand-400 font-bold group-hover:translate-x-2 smooth-transition">Continue <i class="fas fa-arrow-right ml-3"></i></div>
                                 </div>
-                                <div onclick="APP.router.navigate('login/student')" class="flex-1 glass-panel rounded-[40px] p-10 group hover:scale-[1.02] smooth-transition cursor-pointer border border-white/5 hover:border-indigo-500/30">
-                                    <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center mb-8 group-hover:bg-indigo-500/20 smooth-transition">
-                                        <i class="fas fa-user-graduate text-3xl text-indigo-400"></i>
+                                <div class="flex-1 bg-gradient-to-br from-brand-500/20 to-teal-900/20 rounded-[32px] p-1 relative overflow-hidden group hover:scale-[1.01] smooth-transition shadow-2xl shadow-brand-900/30 border border-brand-500/20">
+                                     <div class="absolute inset-0 bg-brand-600/10 blur-xl group-hover:bg-brand-600/20 smooth-transition"></div>
+                                    <div class="glass-panel h-full w-full rounded-[28px] p-10 flex flex-col justify-between relative">
+                                        <div>
+                                            <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-brand-500/20 group-hover:border-brand-500/30 smooth-transition">
+                                                <i class="fas fa-user text-3xl text-brand-300"></i>
+                                            </div>
+                                            <h3 class="text-3xl font-bold text-white mb-3">Student Portal</h3>
+                                            <p class="text-slate-400 text-lg leading-relaxed">Access your courses, track progress and learn at your own pace.</p>
+                                        </div>
+                                        <button onclick="APP.router.navigate('login/student')" class="mt-10 flex items-center text-white font-semibold group-hover:translate-x-2 smooth-transition text-lg">
+                                            Continue <i class="fas fa-arrow-right ml-3 text-sm"></i>
+                                        </button>
                                     </div>
-                                    <h3 class="text-3xl font-bold text-white mb-4">Student Hub</h3>
-                                    <p class="text-slate-400 text-lg">Access your assigned courses, track your learning journey, and excel.</p>
-                                    <div class="mt-8 flex items-center text-indigo-400 font-bold group-hover:translate-x-2 smooth-transition">Continue <i class="fas fa-arrow-right ml-3"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -454,26 +505,34 @@
 
                 Login(type) {
                     const isAdmin = type === 'admin';
-                    const brandColor = isAdmin ? 'from-brand-600 to-brand-400' : 'from-indigo-600 to-indigo-400';
+                    const colorClass = isAdmin ? 'from-admin-600 to-admin-800' : 'from-brand-500 to-teal-600';
                     return `
-                        <div class="min-h-screen flex items-center justify-center p-6 animate-fade">
-                            <div class="glass-panel w-full max-w-lg rounded-[32px] overflow-hidden relative">
-                                <div class="p-12">
-                                    <button onclick="APP.router.navigate('selection')" class="text-slate-500 hover:text-white mb-10 flex items-center smooth-transition font-medium">
-                                        <i class="fas fa-chevron-left mr-3"></i> Back
+                        <div class="min-h-screen w-full flex items-center justify-center relative overflow-hidden">
+                             <div class="absolute top-0 left-0 p-8 w-full z-20">
+                                <div class="flex items-center space-x-3 text-2xl font-bold text-white">
+                                    <div class="w-10 h-10 rounded-lg bg-gradient-to-tr ${colorClass} flex items-center justify-center shadow-lg">
+                                        <i class="fas fa-graduation-cap text-white text-sm"></i>
+                                    </div>
+                                    <span class="tracking-tight">LearnHub</span>
+                                </div>
+                            </div>
+                            <div class="glass-panel p-1 rounded-3xl w-full max-w-lg z-10 mx-6 relative shadow-2xl">
+                                <div class="bg-slate-900/50 rounded-[22px] p-12 border border-white/5">
+                                    <button onclick="APP.router.navigate('selection')" class="text-sm text-slate-400 hover:text-white mb-10 flex items-center smooth-transition">
+                                        <i class="fas fa-arrow-left mr-2"></i> Back to selection
                                     </button>
-                                    <h2 class="text-4xl font-bold text-white mb-2 capitalize">${type} Login</h2>
-                                    <p class="text-slate-400 mb-10">Access your workspace with your credentials.</p>
+                                    <h1 class="text-4xl font-bold text-white capitalize mb-2">${type} Login</h1>
+                                    <p class="text-slate-400 mb-10">Enter your credentials to access the workspace.</p>
                                     <form id="login-form" class="space-y-6">
                                         <div class="space-y-2">
-                                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Identifier</label>
-                                            <input type="text" id="username" value="${isAdmin ? 'admin' : 'student'}" class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-brand-500 outline-none smooth-transition" placeholder="Email or Username">
+                                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Username</label>
+                                            <input type="text" id="username" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:border-${isAdmin ? 'admin-500' : 'brand-500'} focus:ring-1 focus:ring-${isAdmin ? 'admin-500' : 'brand-500'} outline-none smooth-transition placeholder-slate-600" placeholder="${isAdmin ? 'admin' : 'student'}" value="${isAdmin ? 'admin' : 'student'}">
                                         </div>
                                         <div class="space-y-2">
-                                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Security Key</label>
-                                            <input type="password" id="password" value="${isAdmin ? 'admin' : 'student'}" class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-4 text-white focus:border-brand-500 outline-none smooth-transition" placeholder="••••••••">
+                                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Password</label>
+                                            <input type="password" id="password" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-4 text-white focus:border-${isAdmin ? 'admin-500' : 'brand-500'} focus:ring-1 focus:ring-${isAdmin ? 'admin-500' : 'brand-500'} outline-none smooth-transition placeholder-slate-600" placeholder="••••••••" value="${isAdmin ? 'admin' : 'student'}">
                                         </div>
-                                        <button type="submit" class="w-full py-5 rounded-2xl bg-gradient-to-r ${brandColor} text-white font-bold shadow-2xl hover:scale-[1.01] smooth-transition text-lg">Sign In</button>
+                                        <button type="submit" class="w-full bg-gradient-to-r ${colorClass} text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:scale-[1.01] smooth-transition mt-4">Sign In</button>
                                     </form>
                                 </div>
                             </div>
@@ -483,30 +542,38 @@
 
                 Admin() {
                     const tab = APP.state.adminTab;
-                    const tabBtn = (id, label) => `<button onclick="APP.state.adminTab='${id}'; APP.router.handle()" class="px-6 py-2.5 rounded-xl text-sm font-bold smooth-transition ${tab === id ? 'bg-white/10 text-white border border-white/10' : 'text-slate-500 hover:text-slate-300'}">${label}</button>`;
-                    
+                    const tabBtn = (id, label) => `
+                        <button onclick="APP.state.adminTab = '${id}'; APP.router.handle();" 
+                            class="px-6 py-2.5 rounded-lg text-sm font-semibold smooth-transition ${tab === id ? 'bg-admin-600 text-white shadow-lg shadow-admin-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}">
+                            ${label}
+                        </button>
+                    `;
+                    let content = '';
+                    if (tab === 'courses') content = APP.components.AdminCourses();
+                    else if (tab === 'users') content = APP.components.AdminUsers();
+                    else if (tab === 'settings') content = APP.components.AdminSettings();
+
                     return `
-                        <div class="flex flex-col h-full w-full animate-fade">
-                            <header class="h-24 px-8 border-b border-white/5 flex items-center justify-between bg-slate-900/40 backdrop-blur-xl">
-                                <div class="flex items-center space-x-6">
-                                    <div class="w-12 h-12 rounded-xl bg-brand-500 flex items-center justify-center text-white text-xl shadow-lg">
-                                        <i class="fas fa-toolbox"></i>
+                        <div class="flex flex-col h-full w-full relative overflow-hidden">
+                            <nav class="h-20 shrink-0 border-b border-white/5 flex items-center justify-between px-8 bg-slate-900/60 backdrop-blur-xl z-20">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-admin-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-900/20">
+                                        <i class="fas fa-graduation-cap text-white text-sm"></i>
                                     </div>
-                                    <div>
-                                        <h1 class="text-2xl font-black text-white tracking-tight">Admin Console</h1>
-                                        <p class="text-xs text-brand-400 font-bold uppercase tracking-widest">Enterprise Controller</p>
-                                    </div>
+                                    <span class="text-2xl font-bold text-white tracking-tight">Admin<span class="text-admin-400">Dashboard</span></span>
                                 </div>
-                                <div class="flex items-center space-x-2">
+                                <div class="flex items-center space-x-2 bg-slate-950/50 rounded-xl p-1.5 border border-white/5 backdrop-blur-md">
                                     ${tabBtn('courses', 'Courses')}
                                     ${tabBtn('users', 'Users')}
-                                    ${tabBtn('settings', 'System')}
+                                    ${tabBtn('settings', 'Settings')}
                                 </div>
-                                <button class="btn-logout w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:text-red-400 smooth-transition hover:bg-red-500/10"><i class="fas fa-power-off"></i></button>
-                            </header>
-                            <main class="flex-1 overflow-y-auto p-10 bg-slate-950/20">
-                                <div class="max-w-7xl mx-auto">
-                                    ${tab === 'courses' ? APP.components.AdminCourses() : tab === 'users' ? APP.components.AdminUsers() : APP.components.AdminSettings()}
+                                <div class="flex items-center space-x-4">
+                                    <button class="btn-logout w-10 h-10 rounded-full border border-white/5 hover:bg-red-500/10 hover:border-red-500/50 hover:text-red-400 text-slate-400 smooth-transition flex items-center justify-center"><i class="fas fa-sign-out-alt"></i></button>
+                                </div>
+                            </nav>
+                            <main class="flex-1 overflow-y-auto p-8 z-10 pb-20">
+                                <div class="max-w-[95%] w-full mx-auto">
+                                    ${content}
                                 </div>
                             </main>
                         </div>
@@ -515,33 +582,32 @@
 
                 AdminCourses() {
                     return `
-                        <div class="flex justify-between items-center mb-10">
+                        <div class="flex justify-between items-center mb-8">
                             <div>
-                                <h2 class="text-3xl font-bold text-white mb-2">Manage Programs</h2>
-                                <p class="text-slate-400">Create and curate your organization's learning path.</p>
+                                <h2 class="text-3xl font-bold text-white mb-2">Manage Courses</h2>
+                                <p class="text-slate-400">Create, edit and organize your learning materials.</p>
                             </div>
-                            <button onclick="APP.events.createDraftCourse()" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-4 rounded-2xl font-bold shadow-xl smooth-transition flex items-center">
-                                <i class="fas fa-plus mr-3"></i> New Program
+                            <button onclick="APP.events.createDraftCourse()" class="bg-admin-600 hover:bg-admin-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-admin-600/20 flex items-center smooth-transition hover:scale-105">
+                                <i class="fas fa-plus mr-3"></i> Create Course
                             </button>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
                             ${APP.data.courses.map(c => `
-                                <div class="glass-panel p-8 rounded-3xl group border border-white/5 hover:border-brand-500/30 smooth-transition">
-                                    <div class="flex items-start space-x-5 mb-8">
-                                        <div class="w-24 h-24 rounded-2xl bg-slate-800 overflow-hidden shrink-0 shadow-2xl">
-                                            ${APP.ui.renderThumbnail(c.thumbnail)}
+                                <div class="glass-panel p-6 rounded-2xl flex flex-col justify-between group hover:border-admin-500/30 smooth-transition relative overflow-hidden">
+                                     <div class="absolute top-0 right-0 w-32 h-32 bg-admin-500/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-admin-500/10 smooth-transition"></div>
+                                    <div class="flex items-start space-x-5 mb-6 relative z-10">
+                                        <div class="w-24 h-24 rounded-xl bg-slate-800 flex items-center justify-center overflow-hidden border border-white/10 shadow-lg shrink-0">
+                                            ${APP.ui.renderThumbnail(c.thumbnail, 'text-3xl')}
                                         </div>
                                         <div class="min-w-0">
-                                            <h3 class="font-bold text-xl text-white truncate mb-1">${c.title}</h3>
-                                            <div class="text-sm text-brand-400 font-bold mb-3">${c.batch || 'Unscheduled'}</div>
-                                            <div class="flex space-x-3 text-xs text-slate-500">
-                                                <span><i class="fas fa-layer-group mr-1.5"></i> ${c.modules.length} Mods</span>
-                                            </div>
+                                            <h3 class="font-bold text-xl text-white mb-1 truncate leading-tight group-hover:text-admin-300 smooth-transition">${c.title}</h3>
+                                            <div class="text-sm font-semibold text-admin-400 mb-2">${c.batch || 'Unassigned Batch'}</div>
+                                            <div class="text-xs text-slate-500 font-mono flex items-center"><i class="fas fa-layer-group mr-2"></i> ${c.modules.length} Modules</div>
                                         </div>
                                     </div>
-                                    <div class="flex space-x-3">
-                                        <button onclick="APP.router.navigate('admin/course/${c.id}')" class="flex-1 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-bold smooth-transition">Edit Content</button>
-                                        <button onclick="APP.events.deleteCourse('${c.id}')" class="w-12 h-12 rounded-xl border border-red-500/10 text-red-400 hover:bg-red-500/10 flex items-center justify-center smooth-transition"><i class="fas fa-trash-alt"></i></button>
+                                    <div class="flex items-center space-x-3 mt-auto relative z-10">
+                                        <button onclick="APP.router.navigate('admin/course/${c.id}')" class="flex-1 py-2.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-bold text-white smooth-transition">Edit</button>
+                                        <button onclick="APP.events.deleteCourse('${c.id}')" class="px-4 py-2.5 rounded-lg border border-red-500/10 bg-red-500/5 text-red-400 hover:bg-red-500/20 hover:border-red-500/30 text-sm font-bold smooth-transition"><i class="fas fa-trash-alt"></i></button>
                                     </div>
                                 </div>
                             `).join('')}
@@ -551,50 +617,52 @@
 
                 AdminUsers() {
                     return `
-                        <div class="flex flex-col lg:flex-row gap-10">
-                            <div class="flex-1 glass-panel p-10 rounded-[40px]">
-                                <h2 class="text-2xl font-bold text-white mb-8">System Users</h2>
+                         <div class="flex flex-col 2xl:flex-row gap-8">
+                            <div class="flex-1 glass-panel p-8 rounded-3xl">
+                                <h2 class="text-2xl font-bold text-white mb-6">User Management</h2>
                                 <div class="space-y-4">
                                     ${APP.data.users.map(u => `
-                                        <div class="p-5 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between group hover:bg-white/[0.08] smooth-transition">
-                                            <div class="flex items-center space-x-5">
-                                                <div class="w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-xl border border-white/10">${u.name[0]}</div>
+                                        <div class="p-4 rounded-xl bg-slate-900/40 border border-white/5 flex items-center justify-between hover:bg-slate-900/60 smooth-transition group">
+                                            <div class="flex items-center space-x-4">
+                                                <div class="w-12 h-12 rounded-full bg-${u.role === 'admin' ? 'admin-600' : 'slate-700'} flex items-center justify-center font-bold text-white shadow-lg border border-white/10">
+                                                    ${u.name[0]}
+                                                </div>
                                                 <div>
                                                     <div class="font-bold text-white text-lg">${u.name}</div>
-                                                    <div class="text-sm text-slate-500">${u.email}</div>
+                                                    <div class="text-sm text-slate-400">${u.email}</div>
                                                 </div>
                                             </div>
-                                            <div class="flex items-center space-x-6">
-                                                <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${u.role === 'admin' ? 'bg-brand-500/20 text-brand-400' : 'bg-slate-700 text-slate-300'}">${u.role}</span>
-                                                ${u.role !== 'admin' ? `<button onclick="APP.events.deleteUser('${u.email}')" class="text-slate-500 hover:text-red-400 smooth-transition"><i class="fas fa-user-minus"></i></button>` : ''}
+                                            <div class="flex items-center space-x-4">
+                                                <span class="text-xs font-bold px-3 py-1.5 rounded-full ${u.role === 'admin' ? 'bg-admin-500/20 text-admin-300 border border-admin-500/30' : 'bg-slate-700/50 text-slate-300 border border-white/10'} uppercase tracking-wide">${u.role}</span>
+                                                ${u.role !== 'admin' ? `<button onclick="APP.events.deleteUser('${u.email}')" class="w-9 h-9 rounded-lg hover:bg-red-500/20 text-slate-500 hover:text-red-400 flex items-center justify-center smooth-transition"><i class="fas fa-times"></i></button>` : ''}
                                             </div>
                                         </div>
                                     `).join('')}
                                 </div>
                             </div>
-                            <div class="w-full lg:w-96 glass-panel p-10 rounded-[40px] h-fit">
-                                <h3 class="text-xl font-bold text-white mb-8">Add New Identity</h3>
-                                <form id="add-user-form" class="space-y-6">
+                            <div class="w-full 2xl:w-96 glass-panel p-8 rounded-3xl h-fit sticky top-8">
+                                <h2 class="text-xl font-bold text-white mb-6">Invite / Add User</h2>
+                                <form id="add-user-form" class="space-y-5">
                                     <div class="space-y-2">
-                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Name</label>
-                                        <input type="text" id="new-user-name" required class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-3.5 text-white focus:border-brand-500 outline-none">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Full Name</label>
+                                        <input type="text" id="new-user-name" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-admin-500 outline-none text-white transition-colors" placeholder="John Doe">
                                     </div>
                                     <div class="space-y-2">
-                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Handle / Email</label>
-                                        <input type="text" id="new-user-email" required class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-3.5 text-white focus:border-brand-500 outline-none">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Email Address</label>
+                                        <input type="email" id="new-user-email" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-admin-500 outline-none text-white transition-colors" placeholder="john@example.com">
                                     </div>
                                     <div class="space-y-2">
-                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Initial Password</label>
-                                        <input type="password" id="new-user-pass" required class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-3.5 text-white focus:border-brand-500 outline-none">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Password</label>
+                                        <input type="password" id="new-user-pass" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-admin-500 outline-none text-white transition-colors" placeholder="••••••••">
                                     </div>
                                     <div class="space-y-2">
-                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Role</label>
-                                        <select id="new-user-role" class="w-full bg-slate-900/50 border border-white/10 rounded-2xl px-5 py-3.5 text-white focus:border-brand-500 outline-none">
+                                        <label class="text-xs font-bold text-slate-500 uppercase">Role</label>
+                                        <select id="new-user-role" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-admin-500 outline-none text-white transition-colors">
                                             <option value="student">Student</option>
-                                            <option value="admin">Administrator</option>
+                                            <option value="admin">Admin</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="w-full py-4 rounded-2xl bg-brand-600 text-white font-bold shadow-lg shadow-brand-500/20 smooth-transition">Provision User</button>
+                                    <button type="submit" class="w-full bg-admin-600 hover:bg-admin-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-admin-600/20 smooth-transition mt-2">Create Account</button>
                                 </form>
                             </div>
                         </div>
@@ -603,97 +671,38 @@
 
                 AdminSettings() {
                     return `
-                        <div class="glass-panel p-12 rounded-[40px] max-w-4xl mx-auto text-center">
-                            <div class="w-20 h-20 rounded-[28px] bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-3xl mx-auto mb-8">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <h2 class="text-4xl font-bold text-white mb-4">Enterprise Storage</h2>
-                            <p class="text-slate-400 text-lg mb-12">Manage and secure your organization's entire content database.</p>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                                <div onclick="APP.services.exportData()" class="p-10 rounded-[32px] bg-white/5 border border-white/5 hover:border-brand-500/30 smooth-transition cursor-pointer group">
-                                    <i class="fas fa-file-export text-4xl text-brand-400 mb-6 group-hover:scale-110 smooth-transition"></i>
-                                    <div class="text-xl font-bold text-white mb-2">Export DB</div>
-                                    <div class="text-sm text-slate-500">Download system JSON backup</div>
+                        <div class="glass-panel p-10 rounded-3xl max-w-4xl mx-auto">
+                            <div class="flex items-center mb-8">
+                                <div class="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center text-green-400 mr-4 border border-green-500/20">
+                                    <i class="fas fa-database text-xl"></i>
                                 </div>
-                                <label class="p-10 rounded-[32px] bg-white/5 border border-white/5 hover:border-emerald-500/30 smooth-transition cursor-pointer group">
-                                    <input type="file" class="hidden" onchange="APP.events.importData(this.files[0])">
-                                    <i class="fas fa-file-import text-4xl text-emerald-400 mb-6 group-hover:scale-110 smooth-transition"></i>
-                                    <div class="text-xl font-bold text-white mb-2">Restore DB</div>
-                                    <div class="text-sm text-slate-500">Restore from JSON backup</div>
+                                <div>
+                                    <h2 class="text-2xl font-bold text-white">System Data</h2>
+                                    <p class="text-slate-400">Manage database backups and restoration.</p>
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <button onclick="APP.services.exportData()" class="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:bg-slate-900/60 flex flex-col items-center justify-center smooth-transition hover:border-brand-500/30 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-brand-500/5 opacity-0 group-hover:opacity-100 smooth-transition"></div>
+                                    <i class="fas fa-cloud-download-alt text-4xl text-brand-400 mb-4 group-hover:scale-110 smooth-transition"></i>
+                                    <span class="font-bold text-lg text-white">Export Backup</span>
+                                    <span class="text-xs text-slate-500 mt-2">Download .json file</span>
+                                </button>
+                                <label class="group p-8 rounded-2xl border border-white/5 bg-slate-900/40 hover:bg-slate-900/60 flex flex-col items-center justify-center smooth-transition hover:border-green-500/30 cursor-pointer relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 smooth-transition"></div>
+                                    <input type="file" class="hidden" onchange="APP.services.importData(this.files[0])" accept=".json">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-green-400 mb-4 group-hover:scale-110 smooth-transition"></i>
+                                    <span class="font-bold text-lg text-white">Import Backup</span>
+                                    <span class="text-xs text-slate-500 mt-2">Restore from .json file</span>
                                 </label>
                             </div>
                             
-                            <div class="pt-10 border-t border-white/5">
-                                <h3 class="text-red-400 font-black uppercase tracking-[0.2em] text-xs mb-6">Danger Zone</h3>
-                                <button onclick="APP.events.clearAllData()" class="px-8 py-4 rounded-2xl border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white font-bold smooth-transition">Wipe Entire System</button>
+                            <div class="mt-10 pt-10 border-t border-white/5">
+                                <h3 class="text-red-400 font-bold mb-4">Danger Zone</h3>
+                                <button onclick="APP.events.clearAllData()" class="px-6 py-3 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-white font-bold smooth-transition flex items-center">
+                                    <i class="fas fa-trash-alt mr-3"></i> Clear System Data
+                                </button>
                             </div>
-                        </div>
-                    `;
-                },
-
-                Dashboard() {
-                    return `
-                        <div class="flex h-full w-full animate-fade">
-                            <aside class="w-80 shrink-0 border-r border-white/5 bg-slate-900/40 backdrop-blur-xl flex flex-col p-8">
-                                <div class="flex items-center space-x-3 mb-12">
-                                    <div class="w-10 h-10 rounded-lg bg-brand-500 flex items-center justify-center text-white"><i class="fas fa-graduation-cap"></i></div>
-                                    <span class="text-2xl font-black text-white">LearnHub</span>
-                                </div>
-                                <div class="flex-1 space-y-4">
-                                    <button onclick="APP.router.navigate('dashboard')" class="w-full flex items-center px-6 py-4 rounded-2xl bg-brand-600 text-white font-bold shadow-lg shadow-brand-500/20"><i class="fas fa-home w-6 mr-3"></i> Home</button>
-                                    <button class="w-full flex items-center px-6 py-4 rounded-2xl text-slate-400 hover:bg-white/5 hover:text-white smooth-transition"><i class="fas fa-book-open w-6 mr-3"></i> My Library</button>
-                                    <button class="w-full flex items-center px-6 py-4 rounded-2xl text-slate-400 hover:bg-white/5 hover:text-white smooth-transition"><i class="fas fa-award w-6 mr-3"></i> Certificates</button>
-                                </div>
-                                <div class="mt-auto pt-8 border-t border-white/5 flex items-center space-x-4">
-                                    <div class="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold">${APP.state.user.name[0]}</div>
-                                    <div class="flex-1 min-w-0">
-                                        <div class="text-sm font-bold text-white truncate">${APP.state.user.name}</div>
-                                        <div class="text-[10px] text-slate-500 uppercase tracking-widest">${APP.state.user.role}</div>
-                                    </div>
-                                    <button class="btn-logout text-slate-500 hover:text-red-400"><i class="fas fa-sign-out-alt"></i></button>
-                                </div>
-                            </aside>
-                            <main class="flex-1 overflow-y-auto p-12 relative">
-                                <div class="max-w-6xl mx-auto">
-                                    <header class="mb-16">
-                                        <h1 class="text-5xl font-black text-white mb-4">Hello, ${APP.state.user.name.split(' ')[0]}!</h1>
-                                        <p class="text-slate-400 text-xl">You have <span class="text-brand-400 font-bold">${APP.data.courses.length}</span> programs available in your library.</p>
-                                    </header>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                                        ${APP.data.courses.map(c => {
-                                            const total = c.modules.reduce((a, m) => a + m.lessons.length, 0);
-                                            const completed = c.modules.reduce((a, m) => a + m.lessons.filter(l => APP.data.progress[l.id]?.completed).length, 0);
-                                            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
-                                            return `
-                                                <div onclick="APP.router.navigate('course/${c.id}')" class="glass-panel rounded-[40px] overflow-hidden group border border-white/5 hover:border-brand-500/30 smooth-transition cursor-pointer flex flex-col h-full">
-                                                    <div class="h-48 w-full bg-slate-800 relative overflow-hidden">
-                                                        ${APP.ui.renderThumbnail(c.thumbnail, 'group-hover:scale-110 smooth-transition duration-700')}
-                                                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
-                                                        <div class="absolute bottom-6 left-6 right-6">
-                                                            <div class="text-[10px] font-black uppercase tracking-widest text-brand-400 mb-1">${c.batch || 'Self-Paced'}</div>
-                                                            <h3 class="text-2xl font-bold text-white leading-tight">${c.title}</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div class="p-8 flex-1 flex flex-col">
-                                                        <p class="text-slate-400 text-sm mb-8 line-clamp-3">${c.description || 'No description available for this program.'}</p>
-                                                        <div class="mt-auto">
-                                                            <div class="flex justify-between items-center text-xs mb-3">
-                                                                <span class="text-slate-500 font-bold uppercase tracking-widest">Progress</span>
-                                                                <span class="text-brand-400 font-black">${percent}%</span>
-                                                            </div>
-                                                            <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                                                                <div class="h-full bg-brand-500 smooth-transition" style="width: ${percent}%"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            `;
-                                        }).join('')}
-                                    </div>
-                                </div>
-                            </main>
                         </div>
                     `;
                 },
@@ -701,90 +710,145 @@
                 CourseEditor(id) {
                     const course = APP.data.courses.find(c => c.id === id);
                     if (!course) return APP.components.Admin();
+
                     return `
-                        <div class="flex flex-col h-full w-full animate-fade">
-                            <header class="h-24 px-8 border-b border-white/5 bg-slate-900/40 backdrop-blur-xl flex items-center justify-between">
+                        <div class="flex flex-col h-full bg-dark-bg text-white relative">
+                             <!-- Header -->
+                             <header class="h-24 px-8 border-b border-white/5 bg-slate-900/50 backdrop-blur-xl flex items-center justify-between z-20 shrink-0">
                                 <div class="flex items-center space-x-6">
-                                    <button onclick="APP.router.navigate('admin')" class="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-slate-400 hover:text-white smooth-transition"><i class="fas fa-chevron-left"></i></button>
-                                    <div>
-                                        <div class="flex items-center space-x-3">
-                                            <h1 class="text-2xl font-bold text-white" id="editor-course-title-display">${course.title}</h1>
-                                            <button onclick="APP.events.renameCourse('${course.id}')" class="text-slate-500 hover:text-white"><i class="fas fa-edit text-sm"></i></button>
+                                    <button onclick="APP.router.navigate('admin')" class="w-10 h-10 rounded-xl border border-white/10 hover:bg-white/5 flex items-center justify-center text-slate-400 hover:text-white smooth-transition">
+                                        <i class="fas fa-arrow-left"></i>
+                                    </button>
+                                    <div class="flex items-center space-x-5">
+                                        <div class="w-14 h-14 rounded-xl bg-slate-800 flex items-center justify-center overflow-hidden border border-white/10 shadow-lg shrink-0">
+                                            ${APP.ui.renderThumbnail(course.thumbnail)}
                                         </div>
-                                        <p class="text-xs text-brand-400 font-bold uppercase tracking-widest">Curriculum Editor</p>
+                                        <div>
+                                            <h1 class="text-2xl font-bold text-white leading-tight">${course.title}</h1>
+                                            <div class="flex items-center text-sm text-slate-400 space-x-3 mt-1">
+                                                <span class="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-xs font-mono text-slate-300">${course.modules.length} Modules</span>
+                                                <span>•</span>
+                                                <span>${course.batch || 'No Batch'}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex space-x-4">
-                                    <button onclick="APP.events.saveCourse('${course.id}')" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg smooth-transition">Update Metadata</button>
+                                <div class="flex space-x-3">
+                                    <button onclick="APP.events.saveCourse('${course.id}')" class="px-6 py-2.5 rounded-xl bg-green-600 hover:bg-green-500 font-bold shadow-lg shadow-green-600/20 smooth-transition flex items-center text-sm">
+                                        <i class="fas fa-save mr-2"></i> Save Changes
+                                    </button>
+                                    <button onclick="APP.events.deleteCourse('${course.id}')" class="px-4 py-2.5 rounded-xl border border-red-500/20 bg-red-500/5 text-red-400 hover:bg-red-500/10 hover:border-red-500/30 font-bold smooth-transition text-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </div>
                             </header>
-                            <main class="flex-1 overflow-y-auto p-12">
-                                <div class="max-w-5xl mx-auto space-y-12">
-                                    <div class="glass-panel p-10 rounded-[40px]">
-                                        <h3 class="text-xl font-bold text-white mb-8">Metadata Configuration</h3>
+
+                            <!-- Scrollable Content -->
+                            <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                                <div class="max-w-[1600px] mx-auto space-y-8 pb-20">
+                                    <!-- Metadata -->
+                                    <div class="glass-panel p-8 rounded-3xl">
+                                        <div class="flex items-center mb-6">
+                                            <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 border border-blue-500/30 flex items-center justify-center font-bold mr-4">1</div>
+                                            <h2 class="text-xl font-bold text-white">Course Details</h2>
+                                        </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div class="space-y-2">
-                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Title</label>
-                                                <input type="text" id="edit-title" value="${course.title}" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-3.5 text-white">
+                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Course Title</label>
+                                                <input type="text" id="edit-title" value="${course.title}" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-5 py-3.5 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition">
                                             </div>
                                             <div class="space-y-2">
-                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Batch Label</label>
-                                                <input type="text" id="edit-batch" value="${course.batch || ''}" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-3.5 text-white">
+                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Batch / Cohort</label>
+                                                <input type="text" id="edit-batch" value="${course.batch || ''}" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-5 py-3.5 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition">
                                             </div>
                                             <div class="md:col-span-2 space-y-2">
-                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Thumbnail URL</label>
-                                                <input type="text" id="edit-thumb" value="${course.thumbnail || ''}" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-3.5 text-white">
+                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Thumbnail URL</label>
+                                                <div class="flex space-x-4">
+                                                    <input type="text" id="edit-thumb" value="${course.thumbnail || ''}" class="flex-1 bg-slate-950/50 border border-white/10 rounded-xl px-5 py-3.5 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition">
+                                                    <div class="w-12 h-12 rounded-lg bg-slate-900 border border-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+                                                         ${APP.ui.renderThumbnail(course.thumbnail)}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="md:col-span-2 space-y-2">
-                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Abstract / Description</label>
-                                                <textarea id="edit-desc" rows="3" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-3.5 text-white resize-none">${course.description || ''}</textarea>
+                                                <label class="text-xs font-bold text-slate-500 uppercase tracking-wider pl-1">Description</label>
+                                                <textarea id="edit-desc" rows="3" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-5 py-3.5 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none smooth-transition resize-none">${course.description || ''}</textarea>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="glass-panel p-10 rounded-[40px]">
-                                        <div class="flex items-center justify-between mb-10">
-                                            <h3 class="text-xl font-bold text-white">Curriculum Designer</h3>
+                                    <!-- Content -->
+                                    <div class="glass-panel p-8 rounded-3xl">
+                                        <div class="flex items-center justify-between mb-8">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 border border-purple-500/30 flex items-center justify-center font-bold mr-4">2</div>
+                                                <h2 class="text-xl font-bold text-white">Curriculum</h2>
+                                            </div>
                                             <div class="flex space-x-3">
-                                                <label class="px-6 py-3 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/20 text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-indigo-600/30 smooth-transition">
-                                                    <i class="fas fa-folder-open mr-2"></i> Import Folder
+                                                <label class="px-5 py-2.5 rounded-xl border border-slate-600 bg-slate-800/50 hover:bg-slate-700/50 cursor-pointer flex items-center text-xs font-bold text-slate-300 uppercase tracking-wide smooth-transition">
+                                                    <i class="fas fa-folder-open mr-2.5 text-lg"></i> Sync Folder
                                                     <input type="file" class="hidden" webkitdirectory directory multiple onchange="APP.services.importFilesToCourse('${course.id}', this.files); this.value=null;">
                                                 </label>
-                                                <button onclick="APP.events.addModule('${course.id}')" class="px-6 py-3 rounded-xl bg-brand-600 text-white text-xs font-bold uppercase tracking-widest shadow-lg shadow-brand-500/20"><i class="fas fa-plus mr-2"></i> Create Module</button>
+                                                <button onclick="APP.events.addModule('${course.id}')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold uppercase tracking-wide smooth-transition shadow-lg shadow-indigo-600/20">
+                                                    <i class="fas fa-plus mr-2"></i> Add Module
+                                                </button>
                                             </div>
                                         </div>
+
                                         <div class="space-y-6">
-                                            ${course.modules.map((m, mIdx) => `
-                                                <div class="bg-slate-900/40 border border-white/5 rounded-[28px] overflow-hidden">
-                                                    <div class="p-6 bg-white/5 border-b border-white/5 flex items-center justify-between">
-                                                        <div class="flex items-center min-w-0">
-                                                            <div class="flex items-center mr-4 space-x-1 shrink-0">
-                                                                <button onclick="APP.events.moveModule('${course.id}', ${mIdx}, 'up')" class="w-6 h-6 rounded bg-white/5 hover:bg-white/10 text-slate-500 flex items-center justify-center text-[10px] ${mIdx === 0 ? 'opacity-20' : ''}"><i class="fas fa-arrow-up"></i></button>
-                                                                <button onclick="APP.events.moveModule('${course.id}', ${mIdx}, 'down')" class="w-6 h-6 rounded bg-white/5 hover:bg-white/10 text-slate-500 flex items-center justify-center text-[10px] ${mIdx === course.modules.length - 1 ? 'opacity-20' : ''}"><i class="fas fa-arrow-down"></i></button>
+                                            ${course.modules.length === 0 ? `
+                                                <div class="p-16 text-center border-2 border-dashed border-white/10 rounded-2xl bg-white/5">
+                                                    <i class="fas fa-layer-group text-4xl text-slate-600 mb-4"></i>
+                                                    <p class="text-slate-400 font-medium">No modules yet. Start by adding one or importing a folder.</p>
+                                                </div>
+                                            ` : 
+                                              course.modules.map((m, mIdx) => `
+                                                <div class="bg-slate-950/40 border border-white/5 rounded-2xl overflow-hidden hover:border-white/10 smooth-transition">
+                                                    <!-- Module Header -->
+                                                    <div class="p-5 bg-slate-900/60 flex items-center justify-between border-b border-white/5 backdrop-blur-sm">
+                                                        <div class="flex items-center text-white font-bold text-lg">
+                                                            <div class="w-8 h-8 rounded bg-white/5 flex items-center justify-center mr-4 text-slate-400">
+                                                                <span class="text-xs font-mono">${mIdx + 1}</span>
                                                             </div>
-                                                            <span class="text-slate-500 font-mono text-xs mr-3">MOD ${mIdx + 1}</span>
-                                                            <span class="font-bold text-white truncate" id="mod-title-${mIdx}">${m.title}</span>
-                                                            <button onclick="APP.events.renameModule('${course.id}', ${mIdx})" class="ml-3 text-slate-500 hover:text-white shrink-0"><i class="fas fa-edit text-[10px]"></i></button>
+                                                            <span class="truncate max-w-md">${m.title}</span>
                                                         </div>
-                                                        <button onclick="APP.events.deleteModule('${course.id}', ${mIdx})" class="text-slate-500 hover:text-red-400 shrink-0"><i class="fas fa-trash-alt text-sm"></i></button>
+                                                        <div class="flex items-center space-x-3">
+                                                            <div class="flex items-center bg-slate-950 rounded-lg p-1 border border-white/5">
+                                                                <button onclick="APP.events.moveModule('${course.id}', ${mIdx}, -1)" class="w-7 h-7 flex items-center justify-center rounded hover:bg-white/10 text-slate-400 hover:text-white smooth-transition"><i class="fas fa-chevron-up text-xs"></i></button>
+                                                                <button onclick="APP.events.moveModule('${course.id}', ${mIdx}, 1)" class="w-7 h-7 flex items-center justify-center rounded hover:bg-white/10 text-slate-400 hover:text-white smooth-transition"><i class="fas fa-chevron-down text-xs"></i></button>
+                                                            </div>
+                                                            <button onclick="APP.events.deleteModule('${course.id}', ${mIdx})" class="w-8 h-8 flex items-center justify-center rounded-lg border border-red-500/20 bg-red-500/10 text-red-400 hover:bg-red-500/20 smooth-transition"><i class="fas fa-times"></i></button>
+                                                        </div>
                                                     </div>
-                                                    <div class="p-6 space-y-3">
+                                                    
+                                                    <!-- Lessons -->
+                                                    <div class="p-5 space-y-2">
                                                         ${m.lessons.map((l, lIdx) => `
-                                                            <div class="p-4 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between group">
-                                                                <div class="flex items-center min-w-0">
-                                                                    <div class="flex items-center mr-4 space-x-1 shrink-0 opacity-0 group-hover:opacity-100 smooth-transition">
-                                                                        <button onclick="APP.events.moveLesson('${course.id}', ${mIdx}, ${lIdx}, 'up')" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-slate-500 flex items-center justify-center text-[8px] ${lIdx === 0 ? 'opacity-20' : ''}"><i class="fas fa-arrow-up"></i></button>
-                                                                        <button onclick="APP.events.moveLesson('${course.id}', ${mIdx}, ${lIdx}, 'down')" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-slate-500 flex items-center justify-center text-[8px] ${lIdx === m.lessons.length - 1 ? 'opacity-20' : ''}"><i class="fas fa-arrow-down"></i></button>
+                                                            <div class="flex items-center space-x-4 p-3 rounded-xl hover:bg-white/5 smooth-transition group border border-transparent hover:border-white/5">
+                                                                <div class="w-20 shrink-0">
+                                                                    <div class="px-2 py-1 bg-cyan-900/20 border border-cyan-500/20 rounded text-[10px] font-bold text-cyan-400 text-center uppercase tracking-wider">
+                                                                        VIDEO
                                                                     </div>
-                                                                    <div class="text-[10px] font-black uppercase tracking-widest text-brand-400 w-12 shrink-0">${l.type}</div>
-                                                                    <div class="text-sm font-bold text-white truncate mr-2" id="les-title-${mIdx}-${lIdx}">${l.title}</div>
-                                                                    <button onclick="APP.events.renameLesson('${course.id}', ${mIdx}, ${lIdx})" class="opacity-0 group-hover:opacity-100 text-slate-500 hover:text-white shrink-0"><i class="fas fa-edit text-[10px]"></i></button>
                                                                 </div>
-                                                                <button onclick="APP.events.deleteLesson('${course.id}', ${mIdx}, ${lIdx})" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 smooth-transition shrink-0"><i class="fas fa-trash-alt text-xs"></i></button>
+                                                                <div class="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-slate-500 text-xs font-mono border border-white/5">
+                                                                    ${lIdx + 1}
+                                                                </div>
+                                                                
+                                                                <div class="flex-1 min-w-0">
+                                                                     <div class="text-sm font-semibold text-slate-200 truncate">${l.title}</div>
+                                                                     <div class="text-xs text-slate-500 mt-0.5"><i class="fas fa-link mr-1"></i> Source Linked</div>
+                                                                </div>
+                                                                
+                                                                <div class="flex items-center space-x-2 opacity-0 group-hover:opacity-100 smooth-transition translate-x-4 group-hover:translate-x-0">
+                                                                    <button onclick="APP.events.moveLesson('${course.id}', ${mIdx}, ${lIdx}, -1)" class="w-8 h-8 flex items-center justify-center rounded bg-slate-900 border border-white/5 hover:bg-white/10 text-slate-400"><i class="fas fa-arrow-up text-xs"></i></button>
+                                                                    <button onclick="APP.events.moveLesson('${course.id}', ${mIdx}, ${lIdx}, 1)" class="w-8 h-8 flex items-center justify-center rounded bg-slate-900 border border-white/5 hover:bg-white/10 text-slate-400"><i class="fas fa-arrow-down text-xs"></i></button>
+                                                                    <button onclick="APP.events.deleteLesson('${course.id}', ${mIdx}, ${lIdx})" class="w-8 h-8 flex items-center justify-center rounded bg-slate-900 border border-white/5 hover:text-red-400 hover:border-red-500/30 text-slate-400"><i class="fas fa-trash-alt text-xs"></i></button>
+                                                                </div>
                                                             </div>
                                                         `).join('')}
-                                                        <button onclick="APP.events.openAddLessonModal('${course.id}', ${mIdx})" class="w-full py-4 border-2 border-dashed border-white/5 rounded-2xl text-slate-500 hover:text-brand-400 hover:border-brand-500/30 smooth-transition text-xs font-bold uppercase tracking-widest flex items-center justify-center">
-                                                            <i class="fas fa-plus-circle mr-3"></i> Add Lesson / Item
+                                                        
+                                                        <button onclick="APP.events.addLesson('${course.id}', ${mIdx})" class="mt-4 w-full py-3 rounded-xl border border-dashed border-slate-700 text-slate-500 hover:text-brand-400 hover:border-brand-500/50 hover:bg-brand-500/5 smooth-transition text-xs font-bold uppercase tracking-wider flex items-center justify-center">
+                                                            <i class="fas fa-plus mr-2"></i> Add Lesson
                                                         </button>
                                                     </div>
                                                 </div>
@@ -792,415 +856,514 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    `;
+                },
+
+                Dashboard() {
+                    return `
+                        <div class="flex h-full bg-dark-bg">
+                            ${APP.components.Navbar('dashboard')}
+                            <main class="flex-1 h-full overflow-y-auto p-8 relative">
+                                <div class="max-w-[1800px] mx-auto pb-10">
+                                    <header class="flex flex-col xl:flex-row gap-8 mb-12">
+                                        <div class="flex-1 bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-white/10 rounded-[32px] p-10 relative overflow-hidden backdrop-blur-md">
+                                             <div class="absolute -right-10 -top-10 text-white/5 text-[200px] pointer-events-none">
+                                                <i class="fas fa-graduation-cap"></i>
+                                             </div>
+                                            <h1 class="text-5xl font-bold text-white mb-3 relative z-10">Hello, <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-indigo-400">${APP.state.user.name.split(' ')[0]}</span></h1>
+                                            <p class="text-slate-300 text-lg mb-8 relative z-10 max-w-lg">Welcome back to your learning space. You're making great progress.</p>
+                                            
+                                            <div class="flex flex-wrap gap-4 relative z-10">
+                                                <div class="bg-black/30 backdrop-blur-md p-4 pr-8 rounded-2xl flex items-center space-x-4 border border-white/5">
+                                                    <div class="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl"><i class="far fa-clock"></i></div>
+                                                    <div>
+                                                        <div class="font-bold text-2xl text-white leading-none mb-1">0h</div>
+                                                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Hours Learned</div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-black/30 backdrop-blur-md p-4 pr-8 rounded-2xl flex items-center space-x-4 border border-white/5">
+                                                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-xl"><i class="far fa-check-circle"></i></div>
+                                                    <div>
+                                                        <div class="font-bold text-2xl text-white leading-none mb-1">0</div>
+                                                        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Lessons Done</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="w-full xl:w-96 bg-slate-900/40 border border-white/10 rounded-[32px] p-8 flex flex-col backdrop-blur-md">
+                                            <div class="flex justify-between items-center mb-6">
+                                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Weekly Activity</span>
+                                                <span class="text-xs font-bold text-brand-400 bg-brand-500/10 px-2 py-1 rounded">Current Week</span>
+                                            </div>
+                                            <div class="flex-1 flex items-end justify-between space-x-3">
+                                                ${[30, 45, 25, 60, 80, 55, 40].map((h, i) => `
+                                                    <div class="w-full flex flex-col items-center group cursor-pointer">
+                                                        <div class="w-full bg-slate-800 rounded-t-lg relative group-hover:bg-brand-500 smooth-transition overflow-hidden" style="height: ${h}%">
+                                                            <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                                        </div>
+                                                        <span class="text-[10px] text-slate-600 mt-2 font-bold uppercase group-hover:text-slate-400 smooth-transition">${['M','T','W','T','F','S','S'][i]}</span>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    </header>
+
+                                    <h2 class="text-3xl font-bold text-white mb-8 pl-2 border-l-4 border-brand-500">Continue Learning</h2>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
+                                        ${APP.data.courses.length === 0 ? `
+                                            <div class="col-span-full p-12 bg-white/5 rounded-3xl border border-white/5 text-center">
+                                                <p class="text-slate-400 text-lg">No courses enrolled yet. Explore the library!</p>
+                                            </div>
+                                        ` : 
+                                            APP.data.courses.map(c => `
+                                            <div class="glass-panel rounded-[24px] overflow-hidden group hover:shadow-2xl hover:shadow-brand-900/20 hover:-translate-y-1 smooth-transition flex flex-col h-full border border-white/5 hover:border-brand-500/30">
+                                                <div class="h-56 w-full bg-slate-900 relative overflow-hidden">
+                                                    ${APP.ui.renderThumbnail(c.thumbnail, 'h-full w-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 smooth-transition duration-700')}
+                                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-90"></div>
+                                                    ${c.batch ? `<div class="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold border border-white/20 uppercase tracking-wider text-white shadow-xl">${c.batch}</div>` : ''}
+                                                    <div class="absolute bottom-4 left-6 right-6">
+                                                        <h3 class="text-2xl font-bold text-white leading-tight drop-shadow-lg mb-1">${c.title}</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="p-6 flex flex-col flex-1 bg-slate-900/20 backdrop-blur-sm">
+                                                    <p class="text-sm text-slate-400 line-clamp-3 mb-6 flex-1 leading-relaxed">${c.description || 'No description provided.'}</p>
+                                                    
+                                                    <div class="flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                                                        <span>Progress</span>
+                                                        <span class="text-brand-400">0%</span>
+                                                    </div>
+                                                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mb-6">
+                                                        <div class="h-full bg-gradient-to-r from-brand-500 to-indigo-500 w-[5%] shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                                                    </div>
+                                                    
+                                                    <button onclick="APP.router.navigate('course/${c.id}')" class="w-full py-3.5 rounded-xl bg-white/5 hover:bg-brand-600 hover:text-white border border-white/10 hover:border-transparent font-bold text-slate-300 smooth-transition group-hover:shadow-lg">
+                                                        Resume Course
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
                             </main>
                         </div>
                     `;
                 },
 
-                CourseView(id) {
-                    const course = APP.data.courses.find(c => c.id === id);
+                CourseView(courseId) {
+                    const course = APP.data.courses.find(c => c.id === courseId);
                     if (!course) return APP.router.navigate('dashboard');
+                    
+                    // Calculate Progress
+                    const totalLessons = course.modules.reduce((acc, m) => acc + m.lessons.length, 0);
+                    const completedLessons = course.modules.reduce((acc, m) => acc + m.lessons.filter(l => APP.data.progress[l.id]?.completed).length, 0);
+                    const percent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+                    
                     return `
-                        <div class="flex h-screen w-full flex-col animate-fade bg-black">
-                            <header class="h-16 px-6 shrink-0 bg-slate-900 border-b border-white/5 flex items-center justify-between z-50">
-                                <div class="flex items-center space-x-5">
-                                    <button onclick="APP.router.navigate('dashboard')" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400"><i class="fas fa-times text-xs"></i></button>
-                                    <div class="h-6 w-px bg-white/10"></div>
-                                    <div class="text-sm font-bold text-slate-200 truncate max-w-sm">${course.title}</div>
+                        <div class="flex h-screen flex-col bg-dark-bg text-white overflow-hidden">
+                            <!-- Top Bar -->
+                            <header class="h-16 bg-slate-900/80 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-20">
+                                <div class="flex items-center space-x-6">
+                                    <button onclick="APP.router.navigate('dashboard')" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center smooth-transition text-slate-400 hover:text-white">
+                                        <i class="fas fa-times text-sm"></i>
+                                    </button>
+                                    <div class="h-8 w-px bg-white/10"></div>
+                                    <div class="flex flex-col">
+                                        <span class="text-[10px] text-brand-400 font-bold uppercase tracking-widest mb-0.5">Now Playing</span>
+                                        <span class="font-bold text-sm truncate max-w-md text-slate-200">${course.title}</span>
+                                    </div>
                                 </div>
-                                <div class="flex items-center space-x-4">
-                                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white"><i class="fas fa-user-circle"></i></div>
+                                <div class="flex items-center space-x-6">
+                                     <!-- Progress Widget -->
+                                     <div class="flex flex-col text-right">
+                                        <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider mb-1">
+                                            <span class="text-slate-500 mr-2">Progress</span>
+                                            <span class="text-brand-400">${percent}%</span>
+                                        </div>
+                                        <div class="w-32 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-gradient-to-r from-brand-500 to-indigo-500 transition-all duration-500" style="width: ${percent}%"></div>
+                                        </div>
+                                     </div>
+                                     <div class="h-8 w-px bg-white/10"></div>
+                                     <div class="flex items-center space-x-3">
+                                         <button class="text-xs font-bold text-slate-400 hover:text-white uppercase tracking-wider bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg smooth-transition flex items-center border border-white/5">
+                                            <i class="fas fa-chevron-left mr-2"></i> Prev
+                                         </button>
+                                         <button class="text-xs font-bold text-slate-400 hover:text-white uppercase tracking-wider bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg smooth-transition flex items-center border border-white/5">
+                                            Next <i class="fas fa-chevron-right ml-2"></i>
+                                         </button>
+                                     </div>
                                 </div>
                             </header>
-                            <div class="flex flex-1 overflow-hidden">
-                                <aside class="w-96 shrink-0 bg-slate-950/50 backdrop-blur-3xl border-r border-white/5 flex flex-col">
-                                    <div class="p-6 border-b border-white/5 bg-slate-900/20">
-                                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Program Syllabus</div>
+
+                            <div class="flex flex-1 overflow-hidden" id="course-container">
+                                <!-- Sidebar (Left) -->
+                                <aside id="course-sidebar" class="w-96 bg-slate-950/50 backdrop-blur-xl border-r border-white/5 flex flex-col shrink-0 relative" style="width: 24rem; min-width: 16rem; max-width: 40vw;">
+                                    <div class="p-6 border-b border-white/5 flex flex-col bg-slate-900/20">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest"><i class="fas fa-list-ul mr-2 text-brand-500"></i> Course Content</span>
+                                            <span class="bg-brand-500/10 text-brand-400 border border-brand-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full">${course.modules.length} Modules</span>
+                                        </div>
                                     </div>
-                                    <div class="flex-1 overflow-y-auto">
-                                        ${course.modules.map((m, mIdx) => `
+                                    <div class="flex-1 overflow-y-auto custom-scrollbar">
+                                        ${course.modules.map((m, i) => `
                                             <div class="border-b border-white/5 last:border-0">
-                                                <div class="px-6 py-4 bg-white/[0.02] flex items-center justify-between">
-                                                    <span class="text-xs font-black uppercase text-slate-400">${mIdx + 1}. ${m.title}</span>
+                                                <div class="px-6 py-4 bg-white/[0.02] hover:bg-white/[0.04] flex items-center justify-between cursor-pointer smooth-transition group">
+                                                    <span class="text-sm font-bold text-slate-300 group-hover:text-white smooth-transition line-clamp-1 flex-1 pr-4">${i+1}. ${m.title}</span>
+                                                    <i class="fas fa-chevron-down text-xs text-slate-600 group-hover:text-slate-400"></i>
                                                 </div>
-                                                <div class="space-y-0.5">
-                                                    ${m.lessons.map(l => `
-                                                        <div onclick="APP.events.playLesson('${l.id}')" class="lesson-item px-6 py-4 hover:bg-white/5 cursor-pointer smooth-transition border-l-[3px] border-transparent flex items-center space-x-4 group" data-id="${l.id}">
-                                                            <div class="w-4 flex items-center justify-center">
-                                                                <i class="${APP.data.progress[l.id]?.completed ? 'fas fa-check-circle text-brand-400' : 'far fa-circle text-slate-700'} text-xs"></i>
+                                                <div class="bg-black/20">
+                                                    ${m.lessons.map(l => {
+                                                        const isCompleted = APP.data.progress[l.id]?.completed;
+                                                        return `
+                                                        <div onclick="APP.events.playLesson('${l.id}')" class="flex items-center px-6 py-3.5 hover:bg-white/5 cursor-pointer group lesson-item smooth-transition border-l-2 border-transparent" data-id="${l.id}">
+                                                            <div class="mr-4 relative flex items-center justify-center">
+                                                                <i class="far fa-${isCompleted ? 'check-circle text-emerald-500' : 'circle text-slate-600 group-hover:text-slate-500'} text-sm smooth-transition"></i>
                                                             </div>
                                                             <div class="flex-1 min-w-0">
-                                                                <div class="text-sm font-bold text-slate-300 group-hover:text-white truncate">${l.title}</div>
-                                                                <div class="text-[10px] text-slate-600 uppercase tracking-widest font-black">${l.type}</div>
+                                                                <div class="text-xs font-medium text-slate-400 group-hover:text-white truncate smooth-transition mb-1">${l.title}</div>
+                                                                <div class="text-[10px] text-slate-600 flex items-center">
+                                                                    <i class="fas ${l.type === 'video' ? 'fa-play-circle text-blue-400' : 'fa-file-alt text-orange-400'} mr-1.5 opacity-70"></i> ${l.duration}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    `).join('')}
+                                                    `}).join('')}
                                                 </div>
                                             </div>
                                         `).join('')}
                                     </div>
                                 </aside>
-                                <main class="flex-1 relative bg-black flex flex-col">
-                                    <div id="player-container" class="flex-1 relative flex flex-col items-center justify-center hidden">
-                                        <div class="flex-1 w-full relative flex items-center justify-center">
-                                            <video id="course-video" class="video-fit" controlsList="nodownload"></video>
-                                            <iframe id="embed-viewer" class="video-fit hidden" allowfullscreen></iframe>
-                                        </div>
-                                        <!-- Custom Controls for Local Video -->
-                                        <div id="custom-video-controls" class="w-full bg-slate-900/90 p-4 border-t border-white/10 hidden">
-                                            <div class="flex items-center space-x-4">
-                                                <button id="video-play-pause" class="text-white hover:text-brand-400"><i class="fas fa-play"></i></button>
-                                                <span id="video-current-time" class="text-xs font-mono text-slate-400">0:00</span>
-                                                <input type="range" id="video-seek-bar" class="flex-1 seek-bar" value="0" step="0.1">
-                                                <span id="video-duration" class="text-xs font-mono text-slate-400">0:00</span>
-                                            </div>
+                                
+                                <!-- Drag Handle -->
+                                <div id="sidebar-resizer" class="w-1 hover:w-1.5 bg-black hover:bg-brand-500 cursor-col-resize z-30 transition-all duration-200 opacity-50 hover:opacity-100 h-full shrink-0"></div>
+
+                                <!-- Main Content (Center) -->
+                                <main class="flex-1 bg-black/80 relative flex items-center justify-center overflow-hidden w-0 min-w-0">
+                                     <!-- Background Glow -->
+                                     <div class="absolute inset-0 pointer-events-none">
+                                         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] bg-brand-900/5 rounded-full blur-[100px]"></div>
+                                     </div>
+
+                                    <div id="video-container" class="w-full h-full flex items-center justify-center hidden relative z-10 p-4">
+                                        <!-- Responsive Video Wrapper -->
+                                        <div class="w-full h-full flex items-center justify-center">
+                                            <video id="course-video" class="max-w-full max-h-full aspect-video bg-black rounded-xl shadow-2xl shadow-black ring-1 ring-white/10" controlsList="nodownload"></video>
                                         </div>
                                     </div>
-                                    <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-center p-12">
-                                        <div class="w-32 h-32 rounded-full bg-slate-900 flex items-center justify-center mb-8 border border-white/5 shadow-2xl">
-                                            <i class="fas fa-play text-4xl text-brand-500 ml-2 animate-pulse"></i>
-                                        </div>
-                                        <h2 class="text-3xl font-black text-white mb-4">Start Learning</h2>
-                                        <p class="text-slate-500 text-lg max-w-md">Select any module from the curriculum on the left to begin your learning session.</p>
+                                    
+                                    <div id="pdf-container" class="w-full h-full hidden relative z-10 p-4">
+                                        <iframe id="pdf-viewer" class="w-full h-full border-none rounded-xl shadow-2xl bg-white"></iframe>
                                     </div>
-                                    <div id="loader" class="absolute inset-0 bg-black/95 z-[60] flex flex-col items-center justify-center hidden">
-                                        <div class="w-12 h-12 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                                        <div class="text-brand-400 font-bold uppercase tracking-[0.3em] text-[10px]">Loading Asset</div>
+                                    
+                                    <div id="empty-state" class="text-center p-8 relative z-10">
+                                        <div class="w-24 h-24 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6 animate-pulse border border-white/10">
+                                            <i class="fas fa-play text-4xl text-slate-500 ml-2"></i>
+                                        </div>
+                                        <h2 class="text-2xl font-bold text-white mb-2">Ready to learn?</h2>
+                                        <p class="text-slate-400">Select a lesson from the sidebar to begin.</p>
+                                    </div>
+                                    
+                                    <div id="loader" class="absolute inset-0 bg-black/90 z-50 flex items-center justify-center hidden backdrop-blur-sm">
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-16 h-16 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                                            <div class="text-brand-500 font-bold text-sm tracking-widest uppercase">Loading Content</div>
+                                        </div>
                                     </div>
                                 </main>
                             </div>
-                        </div>
-                    `;
-                },
-
-                ImportReviewModal() {
-                    return `
-                        <div class="glass-panel w-full max-w-3xl rounded-[40px] p-12 animate-fade flex flex-col max-h-[90vh]" onclick="event.stopPropagation()">
-                            <h2 class="text-3xl font-bold text-white mb-2">Import Review</h2>
-                            <p class="text-slate-400 mb-8">We found ${APP.state.scannedModules.length} modules. Choose what to import.</p>
-                            <div class="flex-1 overflow-y-auto space-y-4 pr-4">
-                                ${APP.state.scannedModules.map((m, idx) => `
-                                    <div class="p-6 rounded-3xl bg-white/5 border border-white/5 flex items-center justify-between">
-                                        <div class="flex items-center space-x-5">
-                                            <input type="checkbox" checked onchange="APP.state.scannedModules[${idx}].selected = this.checked" class="w-6 h-6 rounded-lg bg-slate-900 border-white/10 text-brand-500">
-                                            <div>
-                                                <div class="font-bold text-white text-lg">${m.title}</div>
-                                                <div class="text-xs text-slate-500 uppercase font-black tracking-widest">${m.lessons.length} assets</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <div class="mt-10 flex justify-end space-x-4 border-t border-white/5 pt-10">
-                                <button onclick="APP.ui.closeModal()" class="px-8 py-4 rounded-2xl text-slate-400 font-bold">Discard</button>
-                                <button onclick="APP.services.executeImport()" class="px-10 py-4 rounded-2xl bg-brand-600 text-white font-bold shadow-xl">Confirm Import</button>
-                            </div>
-                        </div>
-                    `;
-                },
-
-                AddLessonModal(courseId, modIdx) {
-                    return `
-                        <div class="glass-panel w-full max-w-lg rounded-[40px] p-12 animate-fade" onclick="event.stopPropagation()">
-                            <h2 class="text-2xl font-bold text-white mb-10">Append Content</h2>
-                            <form id="lesson-form" class="space-y-8" onsubmit="event.preventDefault(); APP.events.submitAddLesson('${courseId}', ${modIdx})">
-                                <div class="space-y-2">
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Name</label>
-                                    <input type="text" id="les-title" required class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 text-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Method</label>
-                                    <select id="les-method" onchange="APP.events.toggleLessonInput(this.value)" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 text-white">
-                                        <option value="upload">Local Upload</option>
-                                        <option value="youtube">YouTube Embed</option>
-                                        <option value="link">Public URL</option>
-                                    </select>
-                                </div>
-                                <div id="les-input-container">
-                                    <input type="file" id="les-file" class="w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-black file:uppercase file:bg-brand-500/10 file:text-brand-400">
-                                </div>
-                                <div class="flex justify-end space-x-4 pt-4">
-                                    <button type="button" onclick="APP.ui.closeModal()" class="px-6 py-3 rounded-xl text-slate-400 font-bold">Cancel</button>
-                                    <button type="submit" class="px-8 py-3 rounded-xl bg-brand-600 text-white font-bold shadow-xl shadow-brand-500/20">Add Asset</button>
-                                </div>
-                            </form>
                         </div>
                     `;
                 }
             },
 
             events: {
+                login_student: () => APP.events.attachLogin('student'),
+                login_admin: () => APP.events.attachLogin('admin'),
+                
                 attachLogin(role) {
-                    const f = document.getElementById('login-form');
-                    if (f) f.onsubmit = (e) => {
+                    const form = document.getElementById('login-form');
+                    if (form) form.onsubmit = (e) => {
                         e.preventDefault();
-                        APP.services.login(document.getElementById('username').value, document.getElementById('password').value, role);
+                        const u = document.getElementById('username').value;
+                        const p = document.getElementById('password').value;
+                        APP.services.login(u, p, role);
                     };
                 },
+
                 createDraftCourse() {
-                    const id = APP.utils.generateId('c');
-                    APP.data.courses.push({ id, title: 'Unpublished Program', thumbnail: 'fa-cube', modules: [], batch: '', description: '' });
-                    APP.db.saveData().then(() => APP.router.navigate(`admin/course/${id}`));
+                    const newId = 'c_' + Date.now();
+                    const newCourse = {
+                        id: newId,
+                        title: 'New Course',
+                        description: 'Description here...',
+                        batch: '',
+                        thumbnail: 'fa-cube',
+                        modules: []
+                    };
+                    APP.data.courses.push(newCourse);
+                    APP.db.saveData().then(() => {
+                        APP.router.navigate(`admin/course/${newId}`);
+                    });
                 },
-                deleteCourse(id) {
-                    if (confirm('Delete this entire program?')) {
-                        APP.data.courses = APP.data.courses.filter(c => c.id !== id);
-                        APP.db.saveData().then(() => APP.router.handle());
-                    }
-                },
-                saveCourse(id) {
-                    const c = APP.data.courses.find(x => x.id === id);
-                    if (c) {
-                        c.title = document.getElementById('edit-title').value;
-                        c.batch = document.getElementById('edit-batch').value;
-                        c.thumbnail = document.getElementById('edit-thumb').value;
-                        c.description = document.getElementById('edit-desc').value;
-                        APP.db.saveData().then(() => APP.notify('Program updated!', 'success'));
-                    }
-                },
-                renameCourse(id) {
-                    const c = APP.data.courses.find(x => x.id === id);
-                    if (!c) return;
-                    const n = prompt('Rename Program:', c.title);
-                    if (n && n !== c.title) {
-                        c.title = n;
-                        APP.db.saveData().then(() => APP.router.handle());
-                    }
-                },
-                renameModule(cid, midx) {
-                    const c = APP.data.courses.find(x => x.id === cid);
-                    const m = c.modules[midx];
-                    const n = prompt('Rename Module:', m.title);
-                    if (n && n !== m.title) {
-                        m.title = n;
-                        APP.db.saveData().then(() => APP.router.handle());
-                    }
-                },
-                renameLesson(cid, midx, lidx) {
-                    const c = APP.data.courses.find(x => x.id === cid);
-                    const l = c.modules[midx].lessons[lidx];
-                    const n = prompt('Rename Lesson:', l.title);
-                    if (n && n !== l.title) {
-                        l.title = n;
-                        APP.db.saveData().then(() => APP.router.handle());
-                    }
-                },
-                moveModule(cid, midx, dir) {
-                    const c = APP.data.courses.find(x => x.id === cid);
-                    if (!c) return;
-                    const newIdx = dir === 'up' ? midx - 1 : midx + 1;
-                    if (newIdx < 0 || newIdx >= c.modules.length) return;
-                    const temp = c.modules[midx];
-                    c.modules[midx] = c.modules[newIdx];
-                    c.modules[newIdx] = temp;
-                    APP.db.saveData().then(() => APP.router.handle());
-                },
-                moveLesson(cid, midx, lidx, dir) {
-                    const c = APP.data.courses.find(x => x.id === cid);
-                    const m = c.modules[midx];
-                    if (!m) return;
-                    const newIdx = dir === 'up' ? lidx - 1 : lidx + 1;
-                    if (newIdx < 0 || newIdx >= m.lessons.length) return;
-                    const temp = m.lessons[lidx];
-                    m.lessons[lidx] = m.lessons[newIdx];
-                    m.lessons[newIdx] = temp;
-                    APP.db.saveData().then(() => APP.router.handle());
-                },
-                addModule(id) {
-                    const n = prompt('Module Name:');
-                    if (n) {
-                        const c = APP.data.courses.find(x => x.id === id);
-                        c.modules.push({ id: APP.utils.generateId('m'), title: n, lessons: [] });
-                        APP.db.saveData().then(() => APP.router.handle());
-                    }
-                },
-                deleteModule(cid, idx) {
-                    if (confirm('Delete this module?')) {
-                        const c = APP.data.courses.find(x => x.id === cid);
-                        if (c) { c.modules.splice(idx, 1); APP.db.saveData().then(() => APP.router.handle()); }
-                    }
-                },
-                deleteLesson(cid, midx, lidx) {
-                    if (confirm('Delete this lesson?')) {
-                        const c = APP.data.courses.find(x => x.id === cid);
-                        if (c) { c.modules[midx].lessons.splice(lidx, 1); APP.db.saveData().then(() => APP.router.handle()); }
-                    }
-                },
-                openAddLessonModal(cid, midx) {
-                    APP.ui.showModal(APP.components.AddLessonModal(cid, midx));
-                },
-                toggleLessonInput(val) {
-                    const container = document.getElementById('les-input-container');
-                    if (val === 'upload') container.innerHTML = `<input type="file" id="les-file" class="w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-black file:uppercase file:bg-brand-500/10 file:text-brand-400">`;
-                    else container.innerHTML = `<input type="url" id="les-url" required class="w-full bg-slate-900 border border-white/10 rounded-2xl px-5 py-4 text-white" placeholder="https://...">`;
-                },
-                async submitAddLesson(cid, midx) {
-                    const title = document.getElementById('les-title').value;
-                    const method = document.getElementById('les-method').value;
-                    const c = APP.data.courses.find(x => x.id === cid);
-                    const lid = APP.utils.generateId('l');
-                    const les = { id: lid, title, duration: 'Asset', type: 'file', url: null };
-                    
-                    if (method === 'upload') {
-                        const file = document.getElementById('les-file').files[0];
-                        if (!file) return APP.notify('Select file', 'error');
-                        const ext = file.name.split('.').pop().toLowerCase();
-                        if (file.type.startsWith('video') || ['mp4', 'webm', 'ogg'].includes(ext)) les.type = 'video';
-                        else if (file.type === 'application/pdf' || ext === 'pdf') les.type = 'pdf';
-                        await APP.db.saveFile(lid, file);
-                    } else {
-                        const url = document.getElementById('les-url').value;
-                        les.url = url;
-                        les.type = APP.utils.getTypeFromUrl(url);
-                    }
-                    c.modules[midx].lessons.push(les);
-                    await APP.db.saveData();
-                    APP.ui.closeModal();
-                    APP.router.handle();
-                },
-                async playLesson(lid) {
-                    APP.state.activeLessonId = lid;
-                    const loader = document.getElementById('loader');
-                    const player = document.getElementById('player-container');
-                    const empty = document.getElementById('empty-state');
-                    const video = document.getElementById('course-video');
-                    const embed = document.getElementById('embed-viewer');
-                    const customControls = document.getElementById('custom-video-controls');
-                    
-                    loader.classList.remove('hidden');
-                    empty.classList.add('hidden');
-                    player.classList.remove('hidden');
-                    video.classList.add('hidden');
-                    embed.classList.add('hidden');
-                    customControls.classList.add('hidden');
-                    video.pause(); video.src = "";
-                    
-                    document.querySelectorAll('.lesson-item').forEach(el => el.classList.remove('lesson-active'));
-                    const activeEl = document.querySelector(`.lesson-item[data-id="${lid}"]`);
-                    if (activeEl) activeEl.classList.add('lesson-active');
 
-                    let lesson = null;
-                    APP.data.courses.forEach(c => c.modules.forEach(m => m.lessons.forEach(l => { if(l.id === lid) lesson = l; })));
-
-                    try {
-                        if (lesson.url) {
-                            if (lesson.type === 'youtube') {
-                                const yid = APP.utils.parseYouTubeId(lesson.url);
-                                embed.src = `https://www.youtube.com/embed/${yid}?autoplay=1`;
-                                embed.classList.remove('hidden');
-                            } else if (lesson.type === 'pdf' || lesson.type === 'drive') {
-                                embed.src = APP.utils.convertDriveLink(lesson.url);
-                                embed.classList.remove('hidden');
-                            } else if (lesson.type === 'video') {
-                                video.src = lesson.url;
-                                video.classList.remove('hidden');
-                                customControls.classList.remove('hidden');
-                                video.play().catch(()=>{});
-                            } else {
-                                // Default fallback for other links
-                                embed.src = lesson.url;
-                                embed.classList.remove('hidden');
-                            }
-                        } else {
-                            const blob = await APP.db.getFile(lid);
-                            const url = URL.createObjectURL(blob);
-                            if (lesson.type === 'video') {
-                                video.src = url;
-                                video.classList.remove('hidden');
-                                customControls.classList.remove('hidden');
-                                video.play().catch(()=>{});
-                            } else {
-                                embed.src = url;
-                                embed.classList.remove('hidden');
-                            }
-                        }
-                    } catch (e) { APP.notify('Asset Error', 'error'); }
-                    loader.classList.add('hidden');
-                },
-                course(id) {
-                    const video = document.getElementById('course-video');
-                    const playPauseBtn = document.getElementById('video-play-pause');
-                    const seekBar = document.getElementById('video-seek-bar');
-                    const currentTimeDisplay = document.getElementById('video-current-time');
-                    const durationDisplay = document.getElementById('video-duration');
-
-                    if (video) {
-                        video.onloadedmetadata = () => {
-                            seekBar.max = video.duration;
-                            durationDisplay.textContent = APP.utils.formatTime(video.duration);
-                        };
-
-                        video.ontimeupdate = () => {
-                            if (!video.seeking) {
-                                seekBar.value = video.currentTime;
-                                currentTimeDisplay.textContent = APP.utils.formatTime(video.currentTime);
-                            }
-                        };
-
-                        video.onplay = () => {
-                            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                        };
-
-                        video.onpause = () => {
-                            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                        };
-
-                        video.onended = () => {
-                            if (APP.state.activeLessonId) {
-                                APP.data.progress[APP.state.activeLessonId] = { completed: true };
-                                APP.db.saveData();
-                                // Partial reload for progress UI
-                                document.querySelectorAll(`.lesson-item[data-id="${APP.state.activeLessonId}"] i`).forEach(i => {
-                                    i.className = 'fas fa-check-circle text-brand-400 text-xs';
-                                });
-                            }
-                        };
-
-                        playPauseBtn.onclick = () => {
-                            if (video.paused) video.play();
-                            else video.pause();
-                        };
-
-                        seekBar.oninput = () => {
-                            currentTimeDisplay.textContent = APP.utils.formatTime(seekBar.value);
-                        };
-
-                        seekBar.onchange = () => {
-                            video.currentTime = seekBar.value;
-                        };
-                    }
-                },
                 deleteUser(email) {
-                    if (confirm('Revoke access for this user?')) {
+                    if(confirm('Delete user?')) {
                         APP.data.users = APP.data.users.filter(u => u.email !== email);
                         APP.db.saveData().then(() => APP.router.handle());
                     }
                 },
-                importData(file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        try {
-                            APP.data = JSON.parse(e.target.result);
-                            APP.db.saveData().then(() => location.reload());
-                        } catch(e) { APP.notify('Invalid JSON', 'error'); }
-                    };
-                    reader.readAsText(file);
+
+                deleteCourse(id) {
+                    if(confirm('Delete course?')) {
+                        APP.data.courses = APP.data.courses.filter(c => c.id !== id);
+                        APP.db.saveData().then(() => APP.router.handle());
+                    }
                 },
+
+                deleteModule(courseId, modIndex) {
+                    if(confirm('Delete module?')) {
+                        const course = APP.data.courses.find(c => c.id === courseId);
+                        if(course) {
+                            course.modules.splice(modIndex, 1);
+                            APP.db.saveData().then(() => APP.router.handle());
+                        }
+                    }
+                },
+
+                addModule(courseId) {
+                    const course = APP.data.courses.find(c => c.id === courseId);
+                    if(course) {
+                        const name = prompt('Module Name:');
+                        if (name) {
+                            course.modules.push({
+                                id: 'm_' + Date.now(),
+                                title: name,
+                                lessons: []
+                            });
+                            APP.db.saveData().then(() => APP.router.handle());
+                        }
+                    } else {
+                        APP.notify('Course not found.', 'error');
+                    }
+                },
+
+                addLesson(courseId, moduleIndex) {
+                    const course = APP.data.courses.find(c => c.id === courseId);
+                    if(course && course.modules[moduleIndex]) {
+                        const title = prompt('Lesson Title:');
+                        if(title) {
+                            const newLesson = {
+                                id: 'l_' + Date.now(),
+                                title: title,
+                                type: 'video', // default
+                                duration: 'View'
+                            };
+                            course.modules[moduleIndex].lessons.push(newLesson);
+                            APP.db.saveData().then(() => APP.router.handle());
+                        }
+                    }
+                },
+
+                deleteLesson(courseId, moduleIndex, lessonIndex) {
+                    if(confirm('Delete this lesson?')) {
+                         const course = APP.data.courses.find(c => c.id === courseId);
+                         if(course && course.modules[moduleIndex]) {
+                             course.modules[moduleIndex].lessons.splice(lessonIndex, 1);
+                             APP.db.saveData().then(() => APP.router.handle());
+                         }
+                    }
+                },
+
+                moveModule(courseId, index, direction) {
+                    const course = APP.data.courses.find(c => c.id === courseId);
+                    if (!course) return;
+
+                    const newIndex = index + direction;
+                    if (newIndex >= 0 && newIndex < course.modules.length) {
+                        // Swap
+                        [course.modules[index], course.modules[newIndex]] = [course.modules[newIndex], course.modules[index]];
+                        APP.db.saveData().then(() => APP.router.handle());
+                    }
+                },
+
+                moveLesson(courseId, modIndex, lessonIndex, direction) {
+                    const course = APP.data.courses.find(c => c.id === courseId);
+                    if (!course || !course.modules[modIndex]) return;
+                    
+                    const lessons = course.modules[modIndex].lessons;
+                    const newIndex = lessonIndex + direction;
+
+                    if (newIndex >= 0 && newIndex < lessons.length) {
+                        [lessons[lessonIndex], lessons[newIndex]] = [lessons[newIndex], lessons[lessonIndex]];
+                        APP.db.saveData().then(() => APP.router.handle());
+                    }
+                },
+
                 clearAllData() {
-                    if (confirm('DANGER: This will permanently erase ALL data, including modules, users, and uploaded files. Proceed?')) {
+                    if(confirm('ARE YOU SURE? This will wipe everything.')) {
                         APP.db.clearAll().then(() => location.reload());
+                    }
+                },
+
+                saveCourse(id) {
+                    const title = document.getElementById('edit-title').value;
+                    const batch = document.getElementById('edit-batch').value;
+                    const thumb = document.getElementById('edit-thumb').value;
+                    const desc = document.getElementById('edit-desc').value;
+
+                    const course = APP.data.courses.find(c => c.id === id);
+                    if(course) {
+                        course.title = title;
+                        course.batch = batch;
+                        course.thumbnail = thumb;
+                        course.description = desc;
+                        APP.db.saveData().then(() => APP.notify('Changes Saved', 'success'));
+                    }
+                },
+
+                course: (id) => {
+                    // --- Sidebar Resizer Logic ---
+                    const sidebar = document.getElementById('course-sidebar');
+                    const resizer = document.getElementById('sidebar-resizer');
+                    
+                    if(sidebar && resizer) {
+                        let isResizing = false;
+                        
+                        const startResize = (e) => {
+                            isResizing = true;
+                            document.body.style.cursor = 'col-resize';
+                            resizer.classList.add('bg-brand-500', 'opacity-100');
+                            e.preventDefault();
+                        };
+                        
+                        const doResize = (e) => {
+                            if(!isResizing) return;
+                            const newWidth = e.clientX;
+                            // Min/Max constraints are also handled via CSS max-width/min-width, but safe to clamp here too
+                            if(newWidth > 200 && newWidth < window.innerWidth * 0.6) {
+                                sidebar.style.width = newWidth + 'px';
+                            }
+                        };
+                        
+                        const stopResize = () => {
+                            if(isResizing) {
+                                isResizing = false;
+                                document.body.style.cursor = '';
+                                resizer.classList.remove('bg-brand-500', 'opacity-100');
+                            }
+                        };
+
+                        resizer.addEventListener('mousedown', startResize);
+                        document.addEventListener('mousemove', doResize);
+                        document.addEventListener('mouseup', stopResize);
+                    }
+                    
+                    // --- Video Player Logic ---
+                    const video = document.getElementById('course-video');
+                    if(video) {
+                        video.onended = () => {
+                            // Auto next logic placeholder
+                        };
+                        video.ontimeupdate = () => {
+                            if(APP.state.activeLessonId && video.currentTime / video.duration > 0.9) {
+                                if(!APP.data.progress[APP.state.activeLessonId]?.completed) {
+                                    APP.data.progress[APP.state.activeLessonId] = { completed: true };
+                                    APP.db.saveData();
+                                    const icon = document.querySelector(`.lesson-item[data-id="${APP.state.activeLessonId}"] i.far`);
+                                    if(icon) {
+                                        icon.className = 'far fa-check-circle text-emerald-500 text-sm';
+                                        icon.classList.remove('fa-circle');
+                                        icon.classList.add('fa-check-circle');
+                                    }
+                                }
+                            }
+                        };
+                    }
+                },
+
+                async playLesson(lessonId) {
+                    APP.state.activeLessonId = lessonId;
+                    const loader = document.getElementById('loader');
+                    const videoContainer = document.getElementById('video-container');
+                    const pdfContainer = document.getElementById('pdf-container');
+                    const empty = document.getElementById('empty-state');
+                    const video = document.getElementById('course-video');
+                    const pdf = document.getElementById('pdf-viewer');
+
+                    loader.classList.remove('hidden');
+                    empty.classList.add('hidden');
+                    videoContainer.classList.add('hidden');
+                    pdfContainer.classList.add('hidden');
+                    video.pause();
+
+                    document.querySelectorAll('.lesson-item').forEach(el => {
+                        el.classList.remove('bg-white/10', 'border-brand-500');
+                        el.classList.add('border-transparent');
+                    });
+                    const activeEl = document.querySelector(`.lesson-item[data-id="${lessonId}"]`);
+                    if(activeEl) {
+                        activeEl.classList.add('bg-white/10', 'border-brand-500');
+                        activeEl.classList.remove('border-transparent');
+                    }
+
+                    try {
+                        const file = await APP.db.getFile(lessonId);
+                        
+                        let type = 'video';
+                        APP.data.courses.forEach(c => c.modules.forEach(m => m.lessons.forEach(l => { if(l.id === lessonId) type = l.type })));
+
+                        if(file) {
+                            const url = URL.createObjectURL(file);
+                            if(APP.state.activeVideoUrl) URL.revokeObjectURL(APP.state.activeVideoUrl);
+                            APP.state.activeVideoUrl = url;
+
+                            if(type === 'video') {
+                                videoContainer.classList.remove('hidden');
+                                video.src = url;
+                                video.controls = true;
+                                try { await video.play(); } catch(e){}
+                            } else if (type === 'pdf') {
+                                pdfContainer.classList.remove('hidden');
+                                pdf.src = url;
+                            } else {
+                                APP.notify('Preview not available for this file type.', 'info');
+                                empty.classList.remove('hidden');
+                                empty.innerHTML = `
+                                    <div class="mb-6 text-brand-400"><i class="fas fa-file-download text-6xl"></i></div>
+                                    <div class="text-white text-xl font-bold mb-2">File Ready</div>
+                                    <div class="text-slate-400">This file type cannot be previewed directly.</div>
+                                `;
+                            }
+                        } else {
+                             if(type === 'video') {
+                                videoContainer.classList.remove('hidden');
+                                video.src = ''; 
+                                APP.notify('Demo: File not found in DB', 'info');
+                             }
+                        }
+                    } catch(e) {
+                        console.error(e);
+                        APP.notify('Error loading content', 'error');
+                    } finally {
+                        loader.classList.add('hidden');
                     }
                 }
             },
 
             notify(msg, type = 'info') {
                 const div = document.createElement('div');
-                const colors = type === 'success' ? 'bg-emerald-500 border-emerald-400' : type === 'error' ? 'bg-red-500 border-red-400' : 'bg-brand-500 border-brand-400';
-                div.className = `fixed top-12 left-1/2 -translate-x-1/2 z-[200] px-8 py-4 rounded-2xl border-2 text-white font-bold shadow-2xl transition-all duration-500 -translate-y-20 opacity-0 ${colors}`;
-                div.textContent = msg;
+                const colors = type === 'success' ? 'bg-emerald-500/20 border-emerald-500 text-emerald-200' : 
+                               type === 'error' ? 'bg-red-500/20 border-red-500 text-red-200' : 
+                               'bg-blue-500/20 border-blue-500 text-blue-200';
+                
+                div.className = `fixed bottom-8 right-8 z-[100] px-6 py-4 rounded-xl border backdrop-blur-md shadow-2xl flex items-center space-x-4 transform transition-all duration-500 translate-y-20 opacity-0 ${colors}`;
+                div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} text-xl"></i> <span class="font-medium">${msg}</span>`;
                 document.body.appendChild(div);
-                requestAnimationFrame(() => { div.classList.remove('-translate-y-20', 'opacity-0'); });
-                setTimeout(() => { div.classList.add('-translate-y-20', 'opacity-0'); setTimeout(() => div.remove(), 600); }, 3000);
+                requestAnimationFrame(() => div.classList.remove('translate-y-20', 'opacity-0'));
+                setTimeout(() => { div.classList.add('translate-y-20', 'opacity-0'); setTimeout(() => div.remove(), 500); }, 3000);
             },
 
             async init() {
@@ -1208,11 +1371,11 @@
                     await APP.db.init();
                     await APP.db.loadData();
                     APP.router.init();
-                } catch (e) { console.error(e); }
+                } catch (e) { document.body.innerHTML = '<div class="h-screen w-screen flex items-center justify-center text-white bg-black">Init Failed</div>'; }
             }
         };
 
-        document.addEventListener('DOMContentLoaded', () => APP.init());
+        document.addEventListener('DOMContentLoaded', APP.init);
     </script>
 </body>
 </html>
